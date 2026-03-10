@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitHub Analyzer — CareerAI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root {
+      --green-dark: #0a6640;
+      --green-mid: #15a362;
+      --green-light: #1ecc7a;
+      --green-pale: #d4f5e4;
+      --green-ultra: #f0fdf7;
+      --white: #fff;
+      --off-white: #f8fffe;
+      --text-dark: #0a1f14;
+      --text-mid: #2d5a3d;
+      --text-light: #6b9e82;
+      --border: #c6ead8;
+      --error: #e53e3e;
+      --linkedin: #0077b5;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: var(--off-white);
+      color: var(--text-dark);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-family: Georgia, serif;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .85rem 4%;
+      background: rgba(255, 255, 255, .97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-family: Georgia, serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--green-dark);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      flex-shrink: 0;
+    }
+
+    .logo span {
+      color: var(--green-light);
+    }
+
+    .logo-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green-light);
+      display: inline-block;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: .2rem;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: .88rem;
+      color: var(--text-light);
+      padding: .45rem .85rem;
+      border-radius: 8px;
+      transition: all .15s;
+      font-family: Georgia, serif;
+    }
+
+    .nav-links a:hover {
+      color: var(--green-dark);
+      background: var(--green-ultra);
+    }
+
+    .nav-links a.active {
+      color: var(--green-dark);
+      background: var(--green-pale);
+      font-weight: 600;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      flex-shrink: 0;
+    }
+
+    .user-pill {
+      font-size: .83rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      background: var(--green-ultra);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: .35rem .9rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .user-pill .u-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--green-mid);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .75rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .btn-logout-nav {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .4rem 1rem;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      color: var(--text-light);
+      font-size: .82rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: #fff;
+      font-family: Georgia, serif;
+      transition: all .2s;
+    }
+
+    .btn-logout-nav:hover {
+      border-color: var(--error);
+      color: var(--error);
+    }
+
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      color: var(--text-dark);
+      cursor: pointer;
+    }
+
+    .nav-mobile {
+      display: none;
+      flex-direction: column;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: .8rem 4%;
+    }
+
+    .nav-mobile.open {
+      display: flex;
+    }
+
+    .nav-mobile a {
+      text-decoration: none;
+      color: var(--text-mid);
+      font-size: .92rem;
+      padding: .5rem 0;
+      border-bottom: 1px solid var(--green-ultra);
+      font-family: Georgia, serif;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 4%;
+    }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      background: var(--text-dark);
+      color: #8ab49a;
+      padding: 1.8rem 4%;
+      margin-top: 3rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: .82rem;
+    }
+
+    .footer-logo {
+      font-family: Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .footer-logo span {
+      color: var(--green-light);
+    }
+
+    .footer-inner a {
+      color: var(--green-light);
+      text-decoration: none;
+    }
+
+    /* ── INPUT CARD ── */
+    .input-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .input-card h2 {
+      font-family: Georgia, sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 1.4rem;
+    }
+
+    .gh-input-row {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .gh-input-group {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .gh-input-group label {
+      display: block;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      margin-bottom: .45rem;
+    }
+
+    .gh-input-wrap {
+      position: relative;
+    }
+
+    .gh-input-wrap i {
+      position: absolute;
+      left: .9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      font-size: .95rem;
+    }
+
+    .gh-input-wrap input {
+      width: 100%;
+      padding: .78rem 1rem .78rem 2.6rem;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: Georgia, sans-serif;
+      font-size: .95rem;
+      color: var(--text-dark);
+      background: var(--green-ultra);
+      outline: none;
+      transition: border .2s, box-shadow .2s;
+    }
+
+    .gh-input-wrap input:focus {
+      border-color: var(--green-mid);
+      box-shadow: 0 0 0 3px rgba(21, 163, 98, .12);
+      background: #fff;
+    }
+
+    .gh-input-wrap input::placeholder {
+      color: var(--text-light);
+      opacity: .7;
+    }
+
+    .analyze-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+      padding: .78rem 2rem;
+      border-radius: 10px;
+      background: var(--green-mid);
+      color: #fff;
+      border: none;
+      font-family: Georgia, sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .2s;
+      white-space: nowrap;
+    }
+
+    .analyze-btn:hover {
+      background: var(--green-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(21, 163, 98, .3);
+    }
+
+    .analyze-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* banners */
+    .banner {
+      border-radius: 10px;
+      padding: .8rem 1.1rem;
+      font-size: .88rem;
+      display: none;
+      margin-bottom: 1.2rem;
+      align-items: center;
+      gap: .6rem;
+    }
+
+    .banner.error {
+      background: #fff5f5;
+      border: 1px solid #fed7d7;
+      color: var(--error);
+    }
+
+    .banner.info {
+      background: var(--green-pale);
+      border: 1px solid var(--border);
+      color: var(--green-dark);
+    }
+
+    .banner.show {
+      display: flex;
+    }
+
+    /* loading */
+    .loading-overlay {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 3rem;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      margin-bottom: 2rem;
+    }
+
+    .loading-overlay.show {
+      display: flex;
+    }
+
+    .big-spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid var(--green-pale);
+      border-top-color: var(--green-mid);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-text {
+      font-family: Georgia, sans-serif;
+      font-weight: 700;
+      color: var(--text-mid);
+    }
+
+    .loading-sub {
+      font-size: .85rem;
+      color: var(--text-light);
+    }
+
+    /* ── RESULTS ── */
+    .results {
+      display: none;
+    }
+
+    .results.show {
+      display: block;
+      animation: fadeUp .4s ease both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    /* profile card */
+    .profile-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.8rem;
+      margin-bottom: 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+      flex-wrap: wrap;
+    }
+
+    .gh-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid var(--green-pale);
+      object-fit: cover;
+    }
+
+    .gh-avatar-placeholder {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--green-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: var(--green-dark);
+    }
+
+    .profile-info {
+      flex: 1;
+    }
+
+    .profile-name {
+      font-family: Georgia, sans-serif;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .profile-login {
+      color: var(--text-light);
+      font-size: .9rem;
+      margin-top: .1rem;
+    }
+
+    .profile-bio {
+      color: var(--text-mid);
+      font-size: .9rem;
+      margin-top: .5rem;
+      max-width: 500px;
+      line-height: 1.5;
+    }
+
+    .profile-meta {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: .8rem;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      font-size: .85rem;
+      color: var(--text-light);
+    }
+
+    .meta-item i {
+      color: var(--green-mid);
+    }
+
+    .profile-scores {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .score-pill {
+      text-align: center;
+      padding: .8rem 1.2rem;
+      background: var(--green-ultra);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+
+    .score-pill .val {
+      font-family: Georgia, sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--green-dark);
+    }
+
+    .score-pill .lbl {
+      font-size: .72rem;
+      color: var(--text-light);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-top: .1rem;
+    }
+
+    /* score row */
+    .score-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .score-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .score-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .score-card.green::before {
+      background: var(--green-mid);
+    }
+
+    .score-card.orange::before {
+      background: #f59e0b;
+    }
+
+    .score-card.red::before {
+      background: var(--error);
+    }
+
+    .sc-label {
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: .4rem;
+    }
+
+    .sc-value {
+      font-family: Georgia, sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+    }
+
+    .score-card.green .sc-value {
+      color: var(--green-dark);
+    }
+
+    .score-card.orange .sc-value {
+      color: #d97706;
+    }
+
+    .score-card.red .sc-value {
+      color: var(--error);
+    }
+
+    .sc-badge {
+      font-size: .72rem;
+      font-weight: 600;
+      padding: .2rem .55rem;
+      border-radius: 50px;
+      margin-top: .35rem;
+      display: inline-block;
+    }
+
+    .score-card.green .sc-badge {
+      background: var(--green-pale);
+      color: var(--green-dark);
+    }
+
+    .score-card.orange .sc-badge {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .score-card.red .sc-badge {
+      background: #fff5f5;
+      color: var(--error);
+    }
+
+    /* result grid */
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.4rem;
+      margin-bottom: 1.4rem;
+    }
+
+    @media(max-width: 768px) {
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .result-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+
+    .result-card h3 {
+      font-family: Georgia, sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .result-card h3 i {
+      color: var(--green-mid);
+    }
+
+    .result-card-full {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .result-card-full h3 {
+      font-family: Georgia, sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .result-card-full h3 i {
+      color: var(--green-mid);
+    }
+
+    /* repo list */
+    .repo-item {
+      padding: .9rem 0;
+      border-bottom: 1px solid var(--green-ultra);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .repo-item:last-child {
+      border-bottom: none;
+    }
+
+    .repo-name {
+      font-weight: 600;
+      font-size: .9rem;
+      color: var(--green-dark);
+    }
+
+    .repo-name a {
+      color: var(--green-dark);
+      text-decoration: none;
+    }
+
+    .repo-name a:hover {
+      text-decoration: underline;
+    }
+
+    .repo-desc {
+      font-size: .8rem;
+      color: var(--text-light);
+      margin-top: .2rem;
+      max-width: 280px;
+    }
+
+    .repo-meta {
+      display: flex;
+      gap: .8rem;
+      font-size: .78rem;
+      color: var(--text-light);
+      margin-top: .4rem;
+      flex-wrap: wrap;
+    }
+
+    .repo-meta span {
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+    }
+
+    .repo-score-badge {
+      padding: .25rem .7rem;
+      border-radius: 50px;
+      font-size: .75rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .repo-score-badge.high {
+      background: var(--green-pale);
+      color: var(--green-dark);
+    }
+
+    .repo-score-badge.medium {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .repo-score-badge.low {
+      background: #fff5f5;
+      color: var(--error);
+    }
+
+    /* language bar */
+    .lang-bar {
+      display: flex;
+      height: 10px;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: .8rem;
+    }
+
+    .lang-segment {
+      height: 100%;
+      transition: width .5s;
+    }
+
+    .lang-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+    }
+
+    .lang-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .lang-item {
+      display: flex;
+      align-items: center;
+      gap: .35rem;
+      font-size: .78rem;
+      color: var(--text-mid);
+    }
+
+    /* skill tags */
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+
+    .skill-tag {
+      padding: .3rem .8rem;
+      border-radius: 50px;
+      font-size: .8rem;
+      font-weight: 600;
+    }
+
+    .skill-tag.found {
+      background: var(--green-pale);
+      color: var(--green-dark);
+    }
+
+    .skill-tag.missing {
+      background: #fff5f5;
+      color: var(--error);
+      border: 1px solid #fed7d7;
+    }
+
+    .skill-tag.suggest {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+
+    /* suggestions */
+    .suggestion-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+    }
+
+    .suggestion-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: .7rem;
+      font-size: .88rem;
+      color: var(--text-mid);
+      line-height: 1.5;
+    }
+
+    .suggestion-list li i {
+      color: var(--green-mid);
+      margin-top: .15rem;
+      flex-shrink: 0;
+    }
+
+    /* contribution graph placeholder */
+    .contrib-grid {
+      display: grid;
+      grid-template-columns: repeat(52, 1fr);
+      gap: 2px;
+      margin-top: .5rem;
+    }
+
+    .contrib-cell {
+      aspect-ratio: 1;
+      border-radius: 2px;
+      background: var(--green-ultra);
+    }
+
+    .contrib-cell.l1 {
+      background: #bbf0d4;
+    }
+
+    .contrib-cell.l2 {
+      background: #6ee2a7;
+    }
+
+    .contrib-cell.l3 {
+      background: #2ecc78;
+    }
+
+    .contrib-cell.l4 {
+      background: var(--green-dark);
+    }
+
+    @media(max-width: 900px) {
+      .main {
+        margin-left: 0;
+      }
+    }
+
+    .page-header {
+      margin-bottom: 1.8rem;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-title {
+      font-family: Georgia, serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .page-sub {
+      font-size: .9rem;
+      color: var(--text-light);
+      margin-top: .25rem;
+    }
+
+    @media(max-width:760px) {
+      .nav-links {
+        display: none;
+      }
+
+      .nav-right {
+        display: none;
+      }
+
+      .nav-hamburger {
+        display: block;
+      }
+    }
+
+    @media(max-width:500px) {
+      .main {
+        padding: 1.2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="mainNav">
+    <a href="index.html" class="logo"><span class="logo-dot"></span>Career<span>AI</span></a>
+    <ul class="nav-links">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="github.html" class='active'>GitHub</a></li>
+      <li><a href="linkedin.html">LinkedIn</a></li>
+      <li><a href="internships.html">Internships</a></li>
+      <li><a href="roadmap.html">AI Roadmap</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="user-pill" id="userPill">
+        <div class="u-avatar" id="avatarInitial">U</div><span id="navName">User</span>
+      </div>
+      <button class="btn-logout-nav" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+    <button class="nav-hamburger" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
+  </nav>
+  <div class="nav-mobile" id="mobileMenu">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="resume.html">Resume Analyzer</a>
+    <a href="github.html">GitHub Analyzer</a>
+    <a href="linkedin.html">LinkedIn Analyzer</a>
+    <a href="internships.html">Internship Finder</a>
+    <a href="roadmap.html">AI Roadmap</a>
+  </div>
+
+  <div class="main">
+    <div class="page-header">
+      <div class="page-title"><i class="fa-brands fa-github"
+          style="color:var(--green-mid);margin-right:.5rem"></i>GitHub Analyzer</div>
+      <div class="page-sub">Analyze any GitHub profile for skills, repos, language diversity & recruiter score</div>
+    </div>
+    <!-- BANNERS -->
+    <div class="banner error" id="errorBanner"><i class="fa-solid fa-circle-exclamation"></i><span
+        id="errorText"></span></div>
+    <div class="banner info" id="infoBanner"><i class="fa-solid fa-circle-check"></i><span id="infoText"></span></div>
+
+    <!-- INPUT CARD -->
+    <div class="input-card">
+      <h2><i class="fa-brands fa-github" style="color:var(--green-mid);margin-right:.5rem"></i>Analyze a GitHub Profile
+      </h2>
+      <div class="gh-input-row">
+        <div class="gh-input-group">
+          <label>GitHub Username</label>
+          <div class="gh-input-wrap">
+            <i class="fa-brands fa-github"></i>
+            <input type="text" id="ghUsername" placeholder="e.g. torvalds" autocomplete="off" />
+          </div>
+        </div>
+        <button class="analyze-btn" id="analyzeBtn" onclick="analyzeGitHub()">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span id="btnText">Analyze Profile</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- LOADING -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="big-spinner"></div>
+      <div class="loading-text">Fetching GitHub data...</div>
+      <div class="loading-sub">Analyzing repositories, languages, contributions & more</div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="results" id="results">
+
+      <!-- Profile Card -->
+      <div class="profile-card" id="profileCard"></div>
+
+      <!-- Score Cards -->
+      <div class="score-row" id="scoreRow"></div>
+
+      <!-- Languages + Tech Stack -->
+      <div class="result-grid">
+        <div class="result-card">
+          <h3><i class="fa-solid fa-code"></i> Languages Used</h3>
+          <div class="lang-bar" id="langBar"></div>
+          <div class="lang-legend" id="langLegend"></div>
+        </div>
+        <div class="result-card">
+          <h3><i class="fa-solid fa-layer-group"></i> Tech Stack Detected</h3>
+          <div class="skill-tags" id="techStack"></div>
+        </div>
+      </div>
+
+      <!-- Top Repos -->
+      <div class="result-card-full">
+        <h3><i class="fa-solid fa-star"></i> Top Repositories</h3>
+        <div id="repoList"></div>
+      </div>
+
+      <!-- Suggestions + Missing -->
+      <div class="result-grid">
+        <div class="result-card">
+          <h3><i class="fa-solid fa-lightbulb"></i> Profile Improvement Tips</h3>
+          <ul class="suggestion-list" id="suggestions"></ul>
+        </div>
+        <div class="result-card">
+          <h3><i class="fa-solid fa-triangle-exclamation"></i> What to Add</h3>
+          <div class="skill-tags" id="missingSkills"></div>
+        </div>
+      </div>
+
+      <!-- Contribution heatmap -->
+      <div class="result-card-full">
+        <h3><i class="fa-solid fa-fire"></i> Contribution Activity (Simulated)</h3>
+        <div class="contrib-grid" id="contribGrid"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-logo">Career<span>AI</span></span>
+      <span>© 2025 CareerAI · Built for students</span>
+      <span><a href="index.html">Home</a> · <a href="dashboard.html">Dashboard</a></span>
+    </div>
+  </footer>
+
+  <script>
+
+    function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+    function doLogout() { localStorage.removeItem('token'); localStorage.removeItem('user'); window.location.href = 'login.html'; }
+    const token = localStorage.getItem('token');
+    if (!token) window.location.href = 'login.html';
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (user.first_name) {
+      document.getElementById('navName').textContent = user.first_name;
+      document.getElementById('avatarInitial').textContent = user.first_name[0].toUpperCase();
+    }
+    document.getElementById('logoutBtn').onclick = doLogout;
+
+
+    const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://localhost:8000'
+      : window.location.origin;
+    const LANG_COLORS = {
+      'Python': '#3572A5', 'JavaScript': '#f1e05a', 'TypeScript': '#2b7489',
+      'Java': '#b07219', 'C++': '#f34b7d', 'C': '#555555', 'Go': '#00ADD8',
+      'Rust': '#dea584', 'Ruby': '#701516', 'PHP': '#4F5D95', 'HTML': '#e34c26',
+      'CSS': '#563d7c', 'Shell': '#89e051', 'Kotlin': '#F18E33', 'Swift': '#ffac45',
+      'Dart': '#00B4AB', 'Vue': '#2c3e50', 'Other': '#8e8e8e'
+    };
+    // Enter key
+    document.getElementById('ghUsername').addEventListener('keydown', e => { if (e.key === 'Enter') analyzeGitHub(); });
+
+    function showBanner(type, msg) {
+      hideBanners();
+      const el = document.getElementById(type === 'error' ? 'errorBanner' : 'infoBanner');
+      document.getElementById(type === 'error' ? 'errorText' : 'infoText').textContent = msg;
+      el.classList.add('show');
+      if (type === 'info') setTimeout(() => el.classList.remove('show'), 5000);
+    }
+    function hideBanners() {
+      document.getElementById('errorBanner').classList.remove('show');
+      document.getElementById('infoBanner').classList.remove('show');
+    }
+
+    async function analyzeGitHub() {
+      const username = document.getElementById('ghUsername').value.trim();
+      if (!username) { showBanner('error', 'Please enter a GitHub username.'); return; }
+
+      const btn = document.getElementById('analyzeBtn');
+      const btnText = document.getElementById('btnText');
+      btn.disabled = true;
+      btnText.textContent = 'Analyzing...';
+      document.getElementById('loadingOverlay').classList.add('show');
+      document.getElementById('results').classList.remove('show');
+      hideBanners();
+
+      try {
+        const res = await fetch(`${API}/github/analyze?username=${encodeURIComponent(username)}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Analysis failed');
+        renderResults(data);
+        showBanner('info', `GitHub profile for "${username}" analyzed successfully!`);
+      } catch (err) {
+        showBanner('error', err.message);
+      } finally {
+        document.getElementById('loadingOverlay').classList.remove('show');
+        btn.disabled = false;
+        btnText.textContent = 'Analyze Profile';
+      }
+    }
+
+    function renderResults(d) {
+      // Profile card
+      const rc = d.recruiter_score || 0;
+      const rcColor = rc >= 70 ? 'var(--green-mid)' : rc >= 45 ? '#f59e0b' : 'var(--error)';
+      document.getElementById('profileCard').innerHTML = `
+        <img class="gh-avatar" src="${d.avatar_url || ''}" onerror="this.style.display='none'" alt="avatar"/>
+        <div class="profile-info">
+          <div class="profile-name">${d.name || d.username}</div>
+          <div class="profile-login"><i class="fa-brands fa-github"></i> ${d.username}${d.location ? ' · <i class="fa-solid fa-location-dot"></i> ' + d.location : ''}</div>
+          ${d.bio ? `<div class="profile-bio">${d.bio}</div>` : ''}
+          <div class="profile-meta">
+            <span class="meta-item"><i class="fa-solid fa-book"></i> ${d.public_repos} repos</span>
+            <span class="meta-item"><i class="fa-solid fa-users"></i> ${d.followers} followers</span>
+            <span class="meta-item"><i class="fa-solid fa-user-plus"></i> ${d.following} following</span>
+            ${d.blog ? `<span class="meta-item"><i class="fa-solid fa-link"></i> <a href="${d.blog}" target="_blank" style="color:var(--green-mid)">${d.blog}</a></span>` : ''}
+          </div>
+        </div>
+        <div class="profile-scores">
+          <div class="score-pill">
+            <div class="val" style="color:${rcColor}">${rc}</div>
+            <div class="lbl">Recruiter Score</div>
+          </div>
+          <div class="score-pill">
+            <div class="val">${d.total_stars || 0}</div>
+            <div class="lbl">Total Stars</div>
+          </div>
+        </div>
+      `;
+
+      // Score cards
+      const overall = d.overall_score || 0;
+      const oColor = overall >= 70 ? 'green' : overall >= 45 ? 'orange' : 'red';
+      const oLabel = overall >= 70 ? 'Strong' : overall >= 45 ? 'Average' : 'Needs Work';
+      document.getElementById('scoreRow').innerHTML = `
+        <div class="score-card ${oColor}">
+          <div class="sc-label">Overall Score</div>
+          <div class="sc-value">${overall}<small style="font-size:.9rem">/100</small></div>
+          <div class="sc-badge">${oLabel}</div>
+        </div>
+        <div class="score-card ${d.public_repos >= 10 ? 'green' : 'orange'}">
+          <div class="sc-label">Repositories</div>
+          <div class="sc-value">${d.public_repos}</div>
+          <div class="sc-badge">${d.public_repos >= 10 ? 'Active' : 'Add More'}</div>
+        </div>
+        <div class="score-card ${d.followers >= 50 ? 'green' : 'orange'}">
+          <div class="sc-label">Followers</div>
+          <div class="sc-value">${d.followers}</div>
+          <div class="sc-badge">${d.followers >= 50 ? 'Influential' : 'Growing'}</div>
+        </div>
+        <div class="score-card ${d.total_stars >= 20 ? 'green' : 'orange'}">
+          <div class="sc-label">Total Stars</div>
+          <div class="sc-value">${d.total_stars}</div>
+          <div class="sc-badge">${d.total_stars >= 20 ? 'Notable' : 'Build More'}</div>
+        </div>
+      `;
+
+      // Languages bar
+      const langs = d.languages || {};
+      const total = Object.values(langs).reduce((a, b) => a + b, 0) || 1;
+      const sortedLangs = Object.entries(langs).sort((a, b) => b[1] - a[1]).slice(0, 8);
+      document.getElementById('langBar').innerHTML = sortedLangs.map(([lang, count]) => {
+        const pct = ((count / total) * 100).toFixed(1);
+        const color = LANG_COLORS[lang] || LANG_COLORS['Other'];
+        return `<div class="lang-segment" style="width:${pct}%;background:${color}"></div>`;
+      }).join('');
+      document.getElementById('langLegend').innerHTML = sortedLangs.map(([lang, count]) => {
+        const pct = ((count / total) * 100).toFixed(1);
+        const color = LANG_COLORS[lang] || LANG_COLORS['Other'];
+        return `<div class="lang-item"><div class="lang-dot" style="background:${color}"></div>${lang} ${pct}%</div>`;
+      }).join('');
+
+      // Tech stack
+      document.getElementById('techStack').innerHTML = (d.tech_stack || []).map(t =>
+        `<span class="skill-tag found">${t}</span>`
+      ).join('') || '<span style="color:var(--text-light);font-size:.85rem">No specific stack detected</span>';
+
+      // Top repos
+      document.getElementById('repoList').innerHTML = (d.top_repos || []).map(r => {
+        const sc = r.score || 0;
+        const badgeClass = sc >= 70 ? 'high' : sc >= 40 ? 'medium' : 'low';
+        return `
+          <div class="repo-item">
+            <div>
+              <div class="repo-name"><i class="fa-solid fa-book-bookmark" style="color:var(--green-mid);margin-right:.4rem"></i>
+                <a href="https://github.com/${d.username}/${r.name}" target="_blank">${r.name}</a>
+              </div>
+              ${r.description ? `<div class="repo-desc">${r.description}</div>` : ''}
+              <div class="repo-meta">
+                ${r.language ? `<span><i class="fa-solid fa-circle" style="color:${LANG_COLORS[r.language] || '#8e8e8e'};font-size:.5rem"></i>${r.language}</span>` : ''}
+                <span><i class="fa-solid fa-star"></i>${r.stars}</span>
+                <span><i class="fa-solid fa-code-fork"></i>${r.forks}</span>
+                ${r.updated ? `<span><i class="fa-regular fa-clock"></i>${r.updated}</span>` : ''}
+              </div>
+            </div>
+            <span class="repo-score-badge ${badgeClass}">Score ${sc}/100</span>
+          </div>
+        `;
+      }).join('') || '<p style="color:var(--text-light);font-size:.85rem">No public repositories found</p>';
+
+      // Suggestions
+      document.getElementById('suggestions').innerHTML = (d.suggestions || []).map(s =>
+        `<li><i class="fa-solid fa-circle-right"></i>${s}</li>`
+      ).join('') || '<li><i class="fa-solid fa-circle-check"></i>Profile looks great!</li>';
+
+      // Missing skills
+      document.getElementById('missingSkills').innerHTML = (d.missing_skills || []).map(s =>
+        `<span class="skill-tag missing"><i class="fa-solid fa-plus" style="font-size:.6rem"></i> ${s}</span>`
+      ).join('') || '<span class="skill-tag found">No gaps detected!</span>';
+
+      // Contribution heatmap (visual simulation)
+      const grid = document.getElementById('contribGrid');
+      grid.innerHTML = '';
+      for (let i = 0; i < 364; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'contrib-cell';
+        const rand = Math.random();
+        if (rand > 0.85) cell.classList.add('l4');
+        else if (rand > 0.70) cell.classList.add('l3');
+        else if (rand > 0.55) cell.classList.add('l2');
+        else if (rand > 0.40) cell.classList.add('l1');
+        grid.appendChild(cell);
+      }
+
+      document.getElementById('results').classList.add('show');
+      document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+  </script>
+</body>
+
+</html>

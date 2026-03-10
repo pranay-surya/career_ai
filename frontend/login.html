@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In — CareerAI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            forest: { 900: '#0a3d2b', 800: '#0a6640', 700: '#0d7a4d', 600: '#15a362', 500: '#1ecc7a', 100: '#d4f5e4', 50: '#f0fdf7' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * {
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .left-bg {
+      background: linear-gradient(155deg, #0a3d2b 0%, #0a6640 50%, #15a362 100%);
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #15a362 !important;
+      box-shadow: 0 0 0 3px rgba(21, 163, 98, .13) !important;
+    }
+
+    .eye-btn {
+      position: absolute;
+      right: .75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #6b9e82;
+      font-size: .9rem;
+    }
+
+    .eye-btn:hover {
+      color: #0a6640;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(18px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .fade-in {
+      animation: fadeSlide .5s ease both;
+    }
+
+    .submit-btn {
+      background: #15a362;
+      transition: background .2s, transform .15s, box-shadow .2s;
+    }
+
+    .submit-btn:hover {
+      background: #0a6640;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(21, 163, 98, .32);
+    }
+
+    .submit-btn:disabled {
+      opacity: .65;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .google-btn {
+      transition: all .2s;
+    }
+
+    .google-btn:hover {
+      background: #f8fffe;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, .07);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen" style="background:#f0fdf7;">
+
+  <div class="min-h-screen flex">
+
+    <!-- LEFT 40% -->
+    <div class="left-bg hidden md:flex flex-col justify-between px-10 py-12 relative overflow-hidden text-white"
+      style="width:40%;flex-shrink:0;">
+      <div class="absolute -top-28 -right-28 w-80 h-80 rounded-full" style="background:rgba(255,255,255,.05);"></div>
+      <div class="absolute -bottom-24 -left-24 w-72 h-72 rounded-full" style="background:rgba(255,255,255,.04);"></div>
+
+      <a href="index.html" class="text-2xl font-bold z-10" style="color:#fff;text-decoration:none;">Career<span
+          style="color:#1ecc7a;">AI</span></a>
+
+      <div class="z-10">
+        <div class="inline-flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-full mb-6"
+          style="background:rgba(255,255,255,.15);color:#d4f5e4;">
+          <i class="fa-solid fa-bolt" style="color:#1ecc7a;"></i> AI-Powered Career Platform
+        </div>
+        <h2 class="text-3xl font-bold leading-snug mb-4">Welcome Back,<br />Future Professional 👋</h2>
+        <p class="text-sm leading-relaxed mb-10" style="opacity:.75;max-width:280px;">Your AI career coach is ready.
+          Pick up right where you left off.</p>
+
+        <div class="flex flex-col gap-5">
+          <div class="flex items-center gap-3 text-sm" style="opacity:.92;">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+              style="background:rgba(255,255,255,.17);"><i class="fa-regular fa-file-lines text-xs"></i></div>
+            <span>Resume ATS Scoring & Gap Analysis</span>
+          </div>
+          <div class="flex items-center gap-3 text-sm" style="opacity:.92;">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+              style="background:rgba(255,255,255,.17);"><i class="fa-brands fa-github text-xs"></i></div>
+            <span>GitHub & LinkedIn Profile Analyzer</span>
+          </div>
+          <div class="flex items-center gap-3 text-sm" style="opacity:.92;">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+              style="background:rgba(255,255,255,.17);"><i class="fa-solid fa-map-location-dot text-xs"></i></div>
+            <span>AI-Generated Career Roadmaps</span>
+          </div>
+          <div class="flex items-center gap-3 text-sm" style="opacity:.92;">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+              style="background:rgba(255,255,255,.17);"><i class="fa-solid fa-briefcase text-xs"></i></div>
+            <span>Smart Internship Matching</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="z-10 rounded-2xl p-4 text-xs leading-relaxed"
+        style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);">
+        <i class="fa-solid fa-quote-left mb-2 block" style="color:#1ecc7a;font-size:.9rem;"></i>
+        <p style="opacity:.85;">"CareerAI helped me improve my GitHub score from 38 to 82 and land a summer internship
+          at a funded startup."</p>
+        <p class="mt-3 font-bold" style="color:#1ecc7a;">— Arjun M., Final Year CS Student</p>
+      </div>
+    </div>
+
+    <!-- RIGHT 60% -->
+    <div class="flex-1 flex items-center justify-center px-8 py-14 bg-white">
+      <div class="w-full max-w-md fade-in">
+
+        <!-- Mobile logo -->
+        <div class="md:hidden text-center mb-8">
+          <a href="index.html" class="text-2xl font-bold" style="color:#0a6640;text-decoration:none;">Career<span
+              style="color:#1ecc7a;">AI</span></a>
+        </div>
+
+        <h1 class="text-3xl font-bold mb-1" style="color:#0a1f14;">Sign In</h1>
+        <p class="text-sm mb-7" style="color:#6b9e82;">Don't have an account? <a href="register.html" class="font-bold"
+            style="color:#15a362;">Create one free →</a></p>
+
+        <!-- Alerts -->
+        <div id="errorMsg" class="hidden mb-4 px-4 py-3 rounded-xl text-sm flex items-center gap-2"
+          style="background:#fff5f5;border:1px solid #fed7d7;color:#e53e3e;">
+          <i class="fa-solid fa-circle-exclamation"></i><span id="errorText"></span>
+        </div>
+        <div id="successMsg" class="hidden mb-4 px-4 py-3 rounded-xl text-sm flex items-center gap-2"
+          style="background:#d4f5e4;border:1px solid #c6ead8;color:#0a6640;">
+          <i class="fa-solid fa-circle-check"></i><span id="successText"></span>
+        </div>
+
+        <!-- Google -->
+        <button
+          class="google-btn w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl border text-sm font-semibold mb-5"
+          style="border-color:#c6ead8;color:#2d5a3d;background:#fff;">
+          <svg width="18" height="18" viewBox="0 0 48 48">
+            <path fill="#EA4335"
+              d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+            <path fill="#4285F4"
+              d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+            <path fill="#FBBC05"
+              d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+            <path fill="#34A853"
+              d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+          </svg>
+          Continue with Google
+          <span class="text-xs font-normal" style="color:#6b9e82;">(soon)</span>
+        </button>
+
+        <!-- OR divider -->
+        <div class="flex items-center gap-3 mb-5">
+          <div class="flex-1 h-px" style="background:#c6ead8;"></div>
+          <span class="text-xs font-semibold" style="color:#6b9e82;">or continue with email</span>
+          <div class="flex-1 h-px" style="background:#c6ead8;"></div>
+        </div>
+
+        <!-- Fields -->
+        <div class="flex flex-col gap-4">
+
+          <div>
+            <label class="block text-xs font-bold mb-1.5" style="color:#2d5a3d;">Email Address</label>
+            <div class="relative">
+              <i class="fa-regular fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-xs"
+                style="color:#6b9e82;"></i>
+              <input id="email" type="email" placeholder="you@example.com" autocomplete="email"
+                class="w-full pl-9 pr-4 py-3 rounded-xl border text-sm"
+                style="border-color:#c6ead8;background:#f0fdf7;color:#0a1f14;" />
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between mb-1.5">
+              <label class="text-xs font-bold" style="color:#2d5a3d;">Password</label>
+              <a href="#" class="text-xs font-bold" style="color:#15a362;">Forgot password?</a>
+            </div>
+            <div class="relative">
+              <i class="fa-solid fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-xs" style="color:#6b9e82;"></i>
+              <input id="password" type="password" placeholder="••••••••" autocomplete="current-password"
+                class="w-full pl-9 pr-10 py-3 rounded-xl border text-sm"
+                style="border-color:#c6ead8;background:#f0fdf7;color:#0a1f14;" />
+              <button class="eye-btn" onclick="togglePwd()" type="button"><i id="eyeIcon"
+                  class="fa-regular fa-eye"></i></button>
+            </div>
+          </div>
+
+          <label class="flex items-center gap-2 text-sm cursor-pointer" style="color:#2d5a3d;">
+            <input type="checkbox" id="remember" class="w-4 h-4 rounded" style="accent-color:#15a362;" /> Remember me
+          </label>
+
+          <button id="loginBtn" onclick="handleLogin()"
+            class="submit-btn w-full flex items-center justify-center gap-2 py-3 rounded-xl text-white font-bold text-sm mt-1">
+            Sign In <i id="loginIcon" class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <p class="text-center text-xs mt-5" style="color:#6b9e82;">
+          New here? <a href="register.html" class="font-bold" style="color:#15a362;">Create your free account</a>
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function togglePwd() {
+      const inp = document.getElementById('password');
+      const ico = document.getElementById('eyeIcon');
+      inp.type = inp.type === 'password' ? 'text' : 'password';
+      ico.className = inp.type === 'password' ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash';
+    }
+
+    async function handleLogin() {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const btn = document.getElementById('loginBtn');
+
+      document.getElementById('errorMsg').classList.add('hidden');
+      document.getElementById('successMsg').classList.add('hidden');
+
+      if (!email || !password) { showError('Please fill in all fields.'); return; }
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Signing in…';
+
+      try {
+        const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+          ? 'http://localhost:8000' : window.location.origin;
+        const res = await fetch(`${API}/auth/login`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          localStorage.setItem('token', data.access_token);
+          localStorage.setItem('user', JSON.stringify(data.user));
+          showSuccess('Login successful! Redirecting…');
+          setTimeout(() => window.location.href = 'dashboard.html', 1100);
+        } else {
+          showError(data.detail || 'Invalid email or password.');
+        }
+      } catch {
+        showError('Cannot connect to server. Please try again later or check your internet connection.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Sign In <i class="fa-solid fa-arrow-right ml-1"></i>';
+      }
+    }
+
+    function showError(m) { document.getElementById('errorText').textContent = m; document.getElementById('errorMsg').classList.remove('hidden'); }
+    function showSuccess(m) { document.getElementById('successText').textContent = m; document.getElementById('successMsg').classList.remove('hidden'); }
+    document.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
+  </script>
+</body>
+
+</html>

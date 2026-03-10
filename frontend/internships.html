@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Internship Finder — CareerAI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root{--green-dark:#0a6640;--green-mid:#15a362;--green-light:#1ecc7a;--green-pale:#d4f5e4;--green-ultra:#f0fdf7;--white:#fff;--off-white:#f8fffe;--text-dark:#0a1f14;--text-mid:#2d5a3d;--text-light:#6b9e82;--border:#c6ead8;--error:#e53e3e;--linkedin:#0077b5;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:Georgia,'Times New Roman',serif;background:var(--off-white);color:var(--text-dark);}
+    h1,h2,h3,h4,h5{font-family:Georgia,serif;}
+
+    /* ── NAVBAR ── */
+    nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.85rem 4%;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);gap:1rem;flex-wrap:wrap;}
+    .logo{font-family:Georgia,serif;font-size:1.35rem;font-weight:700;color:var(--green-dark);text-decoration:none;display:flex;align-items:center;gap:.4rem;flex-shrink:0;}
+    .logo span{color:var(--green-light);}
+    .logo-dot{width:7px;height:7px;border-radius:50%;background:var(--green-light);display:inline-block;}
+    .nav-links{display:flex;gap:.2rem;list-style:none;flex-wrap:wrap;}
+    .nav-links a{text-decoration:none;font-size:.88rem;color:var(--text-light);padding:.45rem .85rem;border-radius:8px;transition:all .15s;font-family:Georgia,serif;}
+    .nav-links a:hover{color:var(--green-dark);background:var(--green-ultra);}
+    .nav-links a.active{color:var(--green-dark);background:var(--green-pale);font-weight:600;}
+    .nav-right{display:flex;align-items:center;gap:.8rem;flex-shrink:0;}
+    .user-pill{font-size:.83rem;font-weight:600;color:var(--text-mid);background:var(--green-ultra);border:1px solid var(--border);border-radius:50px;padding:.35rem .9rem;display:flex;align-items:center;gap:.5rem;}
+    .user-pill .u-avatar{width:24px;height:24px;border-radius:50%;background:var(--green-mid);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0;}
+    .btn-logout-nav{display:flex;align-items:center;gap:.4rem;padding:.4rem 1rem;border-radius:8px;border:1.5px solid var(--border);color:var(--text-light);font-size:.82rem;font-weight:600;cursor:pointer;background:#fff;font-family:Georgia,serif;transition:all .2s;}
+    .btn-logout-nav:hover{border-color:var(--error);color:var(--error);}
+    .nav-hamburger{display:none;background:none;border:none;font-size:1.2rem;color:var(--text-dark);cursor:pointer;}
+    .nav-mobile{display:none;flex-direction:column;background:#fff;border-bottom:1px solid var(--border);padding:.8rem 4%;}
+    .nav-mobile.open{display:flex;}
+    .nav-mobile a{text-decoration:none;color:var(--text-mid);font-size:.92rem;padding:.5rem 0;border-bottom:1px solid var(--green-ultra);font-family:Georgia,serif;}
+    /* ── MAIN LAYOUT ── */
+    .main{max-width:1100px;margin:0 auto;padding:2.5rem 4%;}
+    /* ── FOOTER ── */
+    .site-footer{background:var(--text-dark);color:#8ab49a;padding:1.8rem 4%;margin-top:3rem;}
+    .footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.82rem;}
+    .footer-logo{font-family:Georgia,serif;font-size:1.2rem;font-weight:700;color:#fff;}
+    .footer-logo span{color:var(--green-light);}
+    .footer-inner a{color:var(--green-light);text-decoration:none;}
+/* ── FILTER CARD ── */
+    .filter-card { background: var(--white); border: 1px solid var(--border); border-radius: 18px; padding: 1.8rem; margin-bottom: 2rem; }
+    .filter-card h2 { font-family: Georgia, sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text-dark); margin-bottom: 1.4rem; }
+    .filter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.2rem; }
+    .filter-group label { display: block; font-size: .82rem; font-weight: 600; color: var(--text-mid); margin-bottom: .4rem; }
+    .filter-group select, .filter-group input {
+      width: 100%; padding: .65rem .9rem .65rem 2.3rem;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      font-family: Georgia, sans-serif; font-size: .9rem;
+      color: var(--text-dark); background: var(--green-ultra);
+      outline: none; transition: border .2s;
+    }
+    .filter-group select:focus, .filter-group input:focus { border-color: var(--green-mid); background: #fff; }
+    .filter-group .icon-wrap { position: relative; }
+    .filter-group .icon-wrap i { position: absolute; left: .8rem; top: 50%; transform: translateY(-50%); color: var(--text-light); font-size: .85rem; pointer-events: none; }
+
+    .skills-input-wrap { position: relative; }
+    .skills-input-wrap i { position: absolute; left: .8rem; top: 50%; transform: translateY(-50%); color: var(--text-light); font-size: .85rem; }
+    .skills-input-wrap input { padding-left: 2.3rem; width: 100%; padding-top: .65rem; padding-bottom: .65rem; padding-right: .9rem; border: 1.5px solid var(--border); border-radius: 10px; font-family: Georgia, sans-serif; font-size: .9rem; color: var(--text-dark); background: var(--green-ultra); outline: none; transition: border .2s; }
+    .skills-input-wrap input:focus { border-color: var(--green-mid); background: #fff; }
+
+    .filter-actions { display: flex; gap: .8rem; align-items: center; flex-wrap: wrap; }
+    .btn-search { display: flex; align-items: center; gap: .5rem; padding: .75rem 2rem; background: var(--green-mid); color: #fff; border: none; border-radius: 10px; font-family: Georgia, sans-serif; font-size: .95rem; font-weight: 700; cursor: pointer; transition: all .2s; }
+    .btn-search:hover { background: var(--green-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(21,163,98,.3); }
+    .btn-search:disabled { opacity: .6; cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-reset { display: flex; align-items: center; gap: .5rem; padding: .75rem 1.2rem; background: var(--white); color: var(--text-light); border: 1.5px solid var(--border); border-radius: 10px; font-size: .9rem; font-weight: 600; cursor: pointer; transition: all .2s; }
+    .btn-reset:hover { border-color: var(--green-mid); color: var(--green-mid); }
+
+    /* skill chips */
+    .skill-chips { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .6rem; }
+    .skill-chip { display: flex; align-items: center; gap: .3rem; padding: .25rem .7rem; background: var(--green-pale); color: var(--green-dark); border-radius: 50px; font-size: .78rem; font-weight: 600; }
+    .skill-chip button { background: none; border: none; color: var(--green-dark); cursor: pointer; padding: 0; font-size: .75rem; opacity: .7; }
+    .skill-chip button:hover { opacity: 1; }
+
+    /* banners */
+    .banner { border-radius: 10px; padding: .8rem 1.1rem; font-size: .88rem; display: none; margin-bottom: 1.2rem; align-items: center; gap: .6rem; }
+    .banner.error { background: #fff5f5; border: 1px solid #fed7d7; color: var(--error); }
+    .banner.info  { background: var(--green-pale); border: 1px solid var(--border); color: var(--green-dark); }
+    .banner.show  { display: flex; }
+
+    /* loading */
+    .loading-overlay { display: none; flex-direction: column; align-items: center; gap: 1rem; padding: 3rem; background: var(--white); border: 1px solid var(--border); border-radius: 18px; margin-bottom: 2rem; }
+    .loading-overlay.show { display: flex; }
+    .big-spinner { width: 44px; height: 44px; border: 4px solid var(--green-pale); border-top-color: var(--green-mid); border-radius: 50%; animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { font-family: Georgia, sans-serif; font-weight: 700; color: var(--text-mid); }
+    .loading-sub  { font-size: .85rem; color: var(--text-light); }
+
+    /* ── RESULTS HEADER ── */
+    .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; flex-wrap: wrap; gap: .8rem; }
+    .results-count { font-family: Georgia, sans-serif; font-size: 1rem; font-weight: 700; color: var(--text-dark); }
+    .results-count span { color: var(--green-mid); }
+    .sort-wrap { display: flex; align-items: center; gap: .5rem; font-size: .85rem; color: var(--text-light); }
+    .sort-wrap select { padding: .4rem .8rem; border: 1.5px solid var(--border); border-radius: 8px; font-family: Georgia, sans-serif; font-size: .85rem; color: var(--text-dark); background: var(--white); outline: none; cursor: pointer; }
+
+    /* ── TABS ── */
+    .level-tabs { display: flex; gap: .5rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
+    .level-tab { padding: .45rem 1.1rem; border-radius: 50px; font-size: .85rem; font-weight: 600; border: 1.5px solid var(--border); color: var(--text-light); cursor: pointer; transition: all .15s; background: var(--white); }
+    .level-tab:hover { border-color: var(--green-mid); color: var(--green-mid); }
+    .level-tab.active { background: var(--green-mid); color: #fff; border-color: var(--green-mid); }
+
+    /* ── JOB CARDS ── */
+    .jobs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.2rem; }
+    .job-card {
+      background: var(--white); border: 1px solid var(--border); border-radius: 16px;
+      padding: 1.4rem; transition: all .2s; cursor: pointer; position: relative;
+      display: flex; flex-direction: column; gap: .8rem;
+    }
+    .job-card:hover { box-shadow: 0 8px 28px rgba(10,102,64,.1); transform: translateY(-3px); border-color: var(--green-mid); }
+    .job-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: .8rem; }
+    .company-logo {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: var(--green-pale); display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; color: var(--green-dark); flex-shrink: 0; font-weight: 700;
+      font-family: Georgia, sans-serif; font-size: 1rem;
+    }
+    .job-info { flex: 1; }
+    .job-title { font-family: Georgia, sans-serif; font-size: .95rem; font-weight: 700; color: var(--text-dark); line-height: 1.3; }
+    .job-company { font-size: .83rem; color: var(--text-mid); margin-top: .2rem; }
+    .match-badge { padding: .25rem .7rem; border-radius: 50px; font-size: .75rem; font-weight: 700; white-space: nowrap; flex-shrink: 0; }
+    .match-badge.high   { background: var(--green-pale); color: var(--green-dark); }
+    .match-badge.medium { background: #fef3c7; color: #92400e; }
+    .match-badge.low    { background: #f0f0f0; color: #666; }
+
+    .job-meta { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .job-meta-item { display: flex; align-items: center; gap: .3rem; font-size: .78rem; color: var(--text-light); }
+    .job-meta-item i { color: var(--green-mid); font-size: .7rem; }
+
+    .job-skills { display: flex; flex-wrap: wrap; gap: .35rem; }
+    .job-skill { padding: .2rem .6rem; border-radius: 50px; font-size: .72rem; font-weight: 600; background: var(--green-ultra); color: var(--text-mid); border: 1px solid var(--border); }
+    .job-skill.matched { background: var(--green-pale); color: var(--green-dark); border-color: var(--green-light); }
+
+    .job-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: .6rem; border-top: 1px solid var(--green-ultra); }
+    .job-source { display: flex; align-items: center; gap: .4rem; font-size: .75rem; color: var(--text-light); }
+    .source-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-light); }
+    .btn-apply { display: flex; align-items: center; gap: .4rem; padding: .4rem 1rem; background: var(--green-mid); color: #fff; border: none; border-radius: 8px; font-size: .8rem; font-weight: 700; cursor: pointer; text-decoration: none; transition: all .15s; }
+    .btn-apply:hover { background: var(--green-dark); }
+
+    .level-badge { position: absolute; top: .8rem; right: .8rem; padding: .18rem .55rem; border-radius: 50px; font-size: .68rem; font-weight: 700; }
+    .level-badge.beginner     { background: #e0f2fe; color: #0369a1; }
+    .level-badge.intermediate { background: #fef3c7; color: #92400e; }
+    .level-badge.advanced     { background: #fce7f3; color: #9d174d; }
+
+    /* empty state */
+    .empty-state { text-align: center; padding: 4rem 2rem; background: var(--white); border: 1px solid var(--border); border-radius: 18px; }
+    .empty-icon { font-size: 3rem; color: var(--green-pale); margin-bottom: 1rem; }
+    .empty-state h3 { font-family: Georgia, sans-serif; font-size: 1.1rem; color: var(--text-dark); margin-bottom: .5rem; }
+    .empty-state p { color: var(--text-light); font-size: .9rem; }
+
+    @media(max-width: 900px) {  .main { margin-left: 0; } }
+    @media(max-width: 600px) { .jobs-grid { grid-template-columns: 1fr; } }
+  
+    .page-header{margin-bottom:1.8rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border);}
+    .page-title{font-family:Georgia,serif;font-size:1.6rem;font-weight:700;color:var(--text-dark);}
+    .page-sub{font-size:.9rem;color:var(--text-light);margin-top:.25rem;}
+    @media(max-width:760px){.nav-links{display:none;}.nav-right{display:none;}.nav-hamburger{display:block;}}
+    @media(max-width:500px){.main{padding:1.2rem;}}
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="mainNav">
+    <a href="index.html" class="logo"><span class="logo-dot"></span>Career<span>AI</span></a>
+    <ul class="nav-links">
+      <li><a href="dashboard.html" >Dashboard</a></li>
+      <li><a href="resume.html" >Resume</a></li>
+      <li><a href="github.html" >GitHub</a></li>
+      <li><a href="linkedin.html" >LinkedIn</a></li>
+      <li><a href="internships.html" class='active'>Internships</a></li>
+      <li><a href="roadmap.html" >AI Roadmap</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="user-pill" id="userPill"><div class="u-avatar" id="avatarInitial">U</div><span id="navName">User</span></div>
+      <button class="btn-logout-nav" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+    <button class="nav-hamburger" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
+  </nav>
+  <div class="nav-mobile" id="mobileMenu">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="resume.html">Resume Analyzer</a>
+    <a href="github.html">GitHub Analyzer</a>
+    <a href="linkedin.html">LinkedIn Analyzer</a>
+    <a href="internships.html">Internship Finder</a>
+    <a href="roadmap.html">AI Roadmap</a>
+  </div>
+
+  <div class="main">
+    <div class="page-header">
+      <div class="page-title"><i class="fa-solid fa-briefcase" style="color:var(--green-mid);margin-right:.5rem"></i>Internship Finder</div>
+      <div class="page-sub">AI-matched internships based on your skills, level and preferences</div>
+    </div>
+    <!-- BANNERS -->
+    <div class="banner error" id="errorBanner"><i class="fa-solid fa-circle-exclamation"></i><span id="errorText"></span></div>
+    <div class="banner info"  id="infoBanner"><i class="fa-solid fa-circle-check"></i><span id="infoText"></span></div>
+
+    <!-- FILTER CARD -->
+    <div class="filter-card">
+      <h2><i class="fa-solid fa-sliders" style="color:var(--green-mid);margin-right:.5rem"></i>Search & Filter Internships</h2>
+      <div class="filter-grid">
+        <div class="filter-group">
+          <label>Role / Domain</label>
+          <div class="icon-wrap">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="roleInput" placeholder="e.g. Python Developer"/>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label>Experience Level</label>
+          <div class="icon-wrap">
+            <i class="fa-solid fa-layer-group"></i>
+            <select id="levelFilter">
+              <option value="all">All Levels</option>
+              <option value="beginner">Beginner (No experience)</option>
+              <option value="intermediate">Intermediate (Projects required)</option>
+              <option value="advanced">Advanced (Prior experience)</option>
+            </select>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label>Work Mode</label>
+          <div class="icon-wrap">
+            <i class="fa-solid fa-location-dot"></i>
+            <select id="modeFilter">
+              <option value="all">All Modes</option>
+              <option value="remote">Remote</option>
+              <option value="onsite">On-site</option>
+              <option value="hybrid">Hybrid</option>
+            </select>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label>Duration</label>
+          <div class="icon-wrap">
+            <i class="fa-regular fa-clock"></i>
+            <select id="durationFilter">
+              <option value="all">Any Duration</option>
+              <option value="1-2">1–2 Months</option>
+              <option value="3-6">3–6 Months</option>
+              <option value="6+">6+ Months</option>
+            </select>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label>Location</label>
+          <div class="icon-wrap">
+            <i class="fa-solid fa-earth-asia"></i>
+            <input type="text" id="locationInput" placeholder="e.g. India, Remote, Pune" value="India"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skills input -->
+      <div class="filter-group" style="margin-bottom:.8rem">
+        <label>Your Skills <small style="color:var(--text-light);font-weight:400">(press Enter to add)</small></label>
+        <div class="skills-input-wrap">
+          <i class="fa-solid fa-code"></i>
+          <input type="text" id="skillInput" placeholder="e.g. Python, React, SQL..." autocomplete="off"/>
+        </div>
+        <div class="skill-chips" id="skillChips"></div>
+      </div>
+
+      <div class="filter-actions">
+        <button class="btn-search" id="searchBtn" onclick="searchInternships()">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span id="searchBtnText">Find Internships</span>
+        </button>
+        <button class="btn-reset" onclick="resetFilters()">
+          <i class="fa-solid fa-rotate-left"></i> Reset
+        </button>
+      </div>
+    </div>
+
+    <!-- LOADING -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="big-spinner"></div>
+      <div class="loading-text">Searching 5 platforms simultaneously...</div>
+      <div class="loading-sub">Remotive · Adzuna · Unstop · Internshala · Indeed · Naukri</div>
+    </div>
+
+    <!-- RESULTS -->
+    <div id="resultsSection" style="display:none">
+
+      <!-- Live data source banner -->
+      <div id="sourceBanner" style="display:none;background:var(--green-ultra);border:1px solid var(--green-pale);border-radius:12px;padding:.75rem 1rem;margin-bottom:1rem;flex-wrap:wrap;gap:.6rem;">
+        <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;width:100%">
+          <i class="fa-solid fa-satellite-dish" style="color:var(--green-mid)"></i>
+          <span style="font-size:.85rem;color:var(--text-dark);font-weight:600">Live data from:</span>
+          <span id="sourcePills" style="display:flex;gap:.4rem;flex-wrap:wrap"></span>
+          <div style="margin-left:auto;display:flex;gap:.7rem;align-items:center">
+            <span style="font-size:.78rem;color:var(--text-light)">Cached 30 min</span>
+            <button onclick="clearCacheAndRefresh()" title="Force fresh data" style="background:none;border:1px solid var(--border);border-radius:6px;padding:.2rem .5rem;font-size:.75rem;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:.3rem">
+              <i class="fa-solid fa-rotate"></i> Refresh
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="results-header">
+        <div class="results-count">Found <span id="resultCount">0</span> internships</div>
+        <div class="sort-wrap">
+          <i class="fa-solid fa-arrow-up-wide-short"></i>
+          Sort by:
+          <select id="sortSelect" onchange="sortAndRender()">
+            <option value="match">Best Match</option>
+            <option value="recent">Most Recent</option>
+            <option value="stipend">Stipend</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Level tabs -->
+      <div class="level-tabs">
+        <button class="level-tab active" onclick="filterByLevel('all', this)"><i class="fa-solid fa-border-all"></i> All</button>
+        <button class="level-tab" onclick="filterByLevel('beginner', this)"><i class="fa-solid fa-seedling"></i> Beginner</button>
+        <button class="level-tab" onclick="filterByLevel('intermediate', this)"><i class="fa-solid fa-bolt"></i> Intermediate</button>
+        <button class="level-tab" onclick="filterByLevel('advanced', this)"><i class="fa-solid fa-fire"></i> Advanced</button>
+      </div>
+
+      <div class="jobs-grid" id="jobsGrid"></div>
+
+      <!-- Pagination -->
+      <div id="paginationBar" style="display:none;justify-content:center;align-items:center;gap:.5rem;margin-top:1.5rem;flex-wrap:wrap">
+        <button id="prevPageBtn" onclick="changePage(-1)" style="padding:.4rem .9rem;border:1px solid var(--border);border-radius:8px;background:white;cursor:pointer;font-size:.85rem;color:var(--text-mid)">
+          <i class="fa-solid fa-chevron-left"></i> Prev
+        </button>
+        <span id="pageInfo" style="font-size:.85rem;color:var(--text-mid);padding:0 .5rem"></span>
+        <button id="nextPageBtn" onclick="changePage(1)" style="padding:.4rem .9rem;border:1px solid var(--border);border-radius:8px;background:white;cursor:pointer;font-size:.85rem;color:var(--text-mid)">
+          Next <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-logo">Career<span>AI</span></span>
+      <span>© 2025 CareerAI · Built for students</span>
+      <span><a href="index.html">Home</a> · <a href="dashboard.html">Dashboard</a></span>
+    </div>
+  </footer>
+
+  <script>
+
+    function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+    function doLogout() { localStorage.removeItem('token'); localStorage.removeItem('user'); window.location.href = 'login.html'; }
+    const token = localStorage.getItem('token');
+    if (!token) window.location.href = 'login.html';
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (user.first_name) {
+      document.getElementById('navName').textContent = user.first_name;
+      document.getElementById('avatarInitial').textContent = user.first_name[0].toUpperCase();
+    }
+    document.getElementById('logoutBtn').onclick = doLogout;
+
+
+    const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://localhost:8000'
+      : window.location.origin;
+    let allJobs = [];
+    let currentLevel = 'all';
+    let userSkills = [];
+    let currentPage = 1;
+    let totalPages  = 1;
+    let lastSearchParams = null;
+    // Pre-fill career goal from user profile
+    if (user.career_goal) {
+      document.getElementById('roleInput').value = user.career_goal;
+    }
+
+    // Skill chip input
+    document.getElementById('skillInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ',') {
+        e.preventDefault();
+        const val = e.target.value.trim().replace(/,$/, '');
+        if (val && !userSkills.includes(val)) {
+          userSkills.push(val);
+          renderSkillChips();
+        }
+        e.target.value = '';
+      }
+    });
+
+    function renderSkillChips() {
+      document.getElementById('skillChips').innerHTML = userSkills.map((s, i) =>
+        `<div class="skill-chip">${s}<button onclick="removeSkill(${i})"><i class="fa-solid fa-xmark"></i></button></div>`
+      ).join('');
+    }
+    function removeSkill(i) { userSkills.splice(i, 1); renderSkillChips(); }
+
+    function showBanner(type, msg) {
+      hideBanners();
+      const el = document.getElementById(type === 'error' ? 'errorBanner' : 'infoBanner');
+      document.getElementById(type === 'error' ? 'errorText' : 'infoText').textContent = msg;
+      el.classList.add('show');
+      if (type === 'info') setTimeout(() => el.classList.remove('show'), 5000);
+    }
+    function hideBanners() {
+      document.getElementById('errorBanner').classList.remove('show');
+      document.getElementById('infoBanner').classList.remove('show');
+    }
+
+    async function searchInternships(page = 1) {
+      const role     = document.getElementById('roleInput').value.trim();
+      const level    = document.getElementById('levelFilter').value;
+      const mode     = document.getElementById('modeFilter').value;
+      const duration = document.getElementById('durationFilter').value;
+      const location = document.getElementById('locationInput').value.trim() || 'India';
+      const sortBy   = document.getElementById('sortSelect').value;
+      const btn      = document.getElementById('searchBtn');
+      const btnText  = document.getElementById('searchBtnText');
+
+      btn.disabled = true;
+      btnText.textContent = 'Searching...';
+      document.getElementById('loadingOverlay').classList.add('show');
+      if (page === 1) document.getElementById('resultsSection').style.display = 'none';
+      hideBanners();
+
+      // Save params for pagination
+      lastSearchParams = { role, level, mode, duration, location, sortBy };
+
+      try {
+        const params = new URLSearchParams();
+        if (role)                params.append('role', role);
+        if (level !== 'all')     params.append('level', level);
+        if (mode !== 'all')      params.append('mode', mode);
+        if (duration !== 'all')  params.append('duration', duration);
+        params.append('location', location);
+        params.append('sort_by', sortBy);
+        params.append('page', page);
+        userSkills.forEach(s => params.append('skills', s));
+
+        const res  = await fetch(`${API}/internships/search?${params}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Search failed');
+
+        allJobs      = data.internships || [];
+        currentPage  = data.page || 1;
+        totalPages   = data.total_pages || 1;
+
+        // Debug log — open browser DevTools Console to see this
+        console.log('[CareerAI] Internship search response:', {
+          total: data.total, page: data.page,
+          returned: allJobs.length, is_live: data.is_live_data,
+          sources: data.sources, live_sources: data.live_sources,
+        });
+        currentLevel = 'all';
+        document.querySelectorAll('.level-tab').forEach(t => t.classList.remove('active'));
+        document.querySelector('.level-tab').classList.add('active');
+
+        // Source pills banner
+        const banner = document.getElementById('sourceBanner');
+        const pills  = document.getElementById('sourcePills');
+        const sources = data.live_sources || data.sources || [];
+        if (sources.length) {
+          const SRC_COLORS = {
+            'Remotive':'#1ecc7a', 'Adzuna':'#f58220', 'Unstop':'#7b2ff7',
+            'Internshala':'#ff4d4d', 'Indeed':'#003a9b', 'Naukri':'#ff7555',
+            'LinkedIn':'#0077b5', 'Glassdoor':'#0caa41', 'Job Board':'#888',
+          };
+          pills.innerHTML = sources.map(s => {
+            const color = SRC_COLORS[s] || '#888';
+            return `<span style="background:${color}18;color:${color};border:1px solid ${color}40;border-radius:6px;padding:.12rem .5rem;font-size:.73rem;font-weight:700">${s}</span>`;
+          }).join('');
+          banner.style.display = 'flex';
+        } else {
+          banner.style.display = 'none';
+        }
+
+        // Pagination bar
+        const pgBar = document.getElementById('paginationBar');
+        if (totalPages > 1) {
+          pgBar.style.display = 'flex';
+          document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+          document.getElementById('prevPageBtn').disabled = currentPage <= 1;
+          document.getElementById('nextPageBtn').disabled = currentPage >= totalPages;
+        } else {
+          pgBar.style.display = 'none';
+        }
+
+        renderJobs(allJobs);
+        document.getElementById('resultCount').textContent = data.total || allJobs.length;
+        document.getElementById('resultsSection').style.display = 'block';
+        const liveNote = data.is_live_data ? ' · Live data' : ' · Curated listings';
+        showBanner('info', `Found ${data.total} internships${liveNote}`);
+
+        // Scroll to results on page change
+        if (page > 1) document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+
+      } catch (err) {
+        showBanner('error', err.message || 'Could not connect to server.');
+      } finally {
+        document.getElementById('loadingOverlay').classList.remove('show');
+        btn.disabled = false;
+        btnText.textContent = 'Find Internships';
+      }
+    }
+
+    function changePage(delta) {
+      const newPage = currentPage + delta;
+      if (newPage < 1 || newPage > totalPages) return;
+      searchInternships(newPage);
+    }
+
+    async function clearCacheAndRefresh() {
+      try {
+        await fetch(`${API}/internships/cache`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        showBanner('info', 'Cache cleared! Fetching fresh data...');
+        setTimeout(() => searchInternships(1), 800);
+      } catch (e) {
+        searchInternships(1);
+      }
+    }
+
+    function filterByLevel(level, el) {
+      currentLevel = level;
+      document.querySelectorAll('.level-tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      applyClientSort();
+    }
+
+    function sortAndRender() {
+      // If we already have data, just re-sort client-side (no new API call)
+      if (allJobs.length > 0) {
+        applyClientSort();
+      } else {
+        searchInternships(1);
+      }
+    }
+
+    function applyClientSort() {
+      const sort = document.getElementById('sortSelect').value;
+      let jobs = currentLevel === 'all' ? [...allJobs] : allJobs.filter(j => j.level === currentLevel);
+      if (sort === 'match')   jobs.sort((a, b) => (b.match_score || 0) - (a.match_score || 0));
+      if (sort === 'recent')  jobs.sort((a, b) => (a.posted_days_ago || 0) - (b.posted_days_ago || 0));
+      if (sort === 'stipend') jobs.sort((a, b) => (b.stipend_value || 0) - (a.stipend_value || 0));
+      document.getElementById('resultCount').textContent = jobs.length;
+      renderJobs(jobs);
+    }
+
+    function renderJobs(jobs) {
+      const grid = document.getElementById('jobsGrid');
+      if (!jobs.length) {
+        const role = document.getElementById('roleInput').value.trim() || 'your search';
+        grid.innerHTML = `
+          <div class="empty-state" style="grid-column:1/-1">
+            <div class="empty-icon"><i class="fa-solid fa-briefcase"></i></div>
+            <h3>No internships found for "${role}"</h3>
+            <p>Try a broader role name, remove filters, or <a href="#" onclick="resetFilters();return false" style="color:var(--green-mid)">reset all filters</a>.</p>
+          </div>`;
+        return;
+      }
+
+      const SOURCE_COLORS = {
+        'Remotive':   '#1ecc7a', 'Adzuna':    '#f58220', 'Unstop':     '#7b2ff7',
+        'Internshala':'#ff4d4d', 'Indeed':    '#003a9b', 'Naukri':     '#ff7555',
+        'LinkedIn':   '#0077b5', 'Glassdoor': '#0caa41', 'ZipRecruiter':'#1f9ad6',
+        'Job Board':  '#888',    'Curated':   '#aaa',
+      };
+
+      grid.innerHTML = jobs.map((job, idx) => {
+        const matchClass  = job.match_score >= 70 ? 'high' : job.match_score >= 40 ? 'medium' : 'low';
+        const levelLabel  = job.level.charAt(0).toUpperCase() + job.level.slice(1);
+        const sourceColor = SOURCE_COLORS[job.source] || '#888';
+        const postedLabel = job.posted_days_ago === 0 ? 'Today'
+                          : job.posted_days_ago === 1 ? '1 day ago'
+                          : job.posted_days_ago <= 30 ? `${job.posted_days_ago}d ago`
+                          : 'This month';
+
+        const skillsHtml = (job.skills || []).map(s => {
+          const matched = userSkills.some(us => us.toLowerCase() === s.toLowerCase());
+          return `<span class="job-skill ${matched ? 'matched' : ''}">${s}</span>`;
+        }).join('');
+
+        // Company logo — real URL if available, else initial fallback
+        const logoHtml = job.company_logo
+          ? `<img src="${job.company_logo}" alt="" style="width:38px;height:38px;border-radius:8px;object-fit:contain;background:#f5f5f5;padding:2px" onerror="this.outerHTML='<div class=\\'company-logo\\'>${(job.company||'?').charAt(0)}</div>'">`
+          : `<div class="company-logo">${(job.company||'?').charAt(0)}</div>`;
+
+        // Highlights (qualifications/responsibilities) shown on expand
+        const quals = (job.highlights?.qualifications || []).slice(0,3);
+        const highlightsHtml = quals.length ? `
+          <details style="margin-top:.6rem">
+            <summary style="font-size:.78rem;font-weight:600;color:var(--green-mid);cursor:pointer;list-style:none;display:flex;align-items:center;gap:.3rem">
+              <i class="fa-solid fa-chevron-right" style="font-size:.65rem;transition:.2s"></i> Requirements
+            </summary>
+            <ul style="margin:.4rem 0 0 1rem;padding:0;font-size:.78rem;color:var(--text-mid);line-height:1.7">
+              ${quals.map(q => `<li>${q.replace(/</g,'&lt;')}</li>`).join('')}
+            </ul>
+          </details>` : '';
+
+        return `
+          <div class="job-card">
+            <span class="level-badge ${job.level}">${levelLabel}</span>
+            <div class="job-card-top">
+              ${logoHtml}
+              <div class="job-info">
+                <div class="job-title">${job.title}</div>
+                <div class="job-company">
+                  <i class="fa-solid fa-building" style="color:var(--green-mid);margin-right:.3rem;font-size:.75rem"></i>${job.company}
+                </div>
+              </div>
+              <div class="match-badge ${matchClass}">${job.match_score}% match</div>
+            </div>
+            <div class="job-meta">
+              <span class="job-meta-item"><i class="fa-solid fa-location-dot"></i>${job.location}</span>
+              <span class="job-meta-item"><i class="fa-regular fa-clock"></i>${job.duration}</span>
+              <span class="job-meta-item"><i class="fa-solid fa-sack-dollar"></i>${job.stipend}</span>
+            </div>
+            <div class="job-skills">${skillsHtml}</div>
+            ${highlightsHtml}
+            <div class="job-card-footer" style="margin-top:.8rem">
+              <div style="display:flex;align-items:center;gap:.5rem">
+                <span style="background:${sourceColor}1a;color:${sourceColor};border:1px solid ${sourceColor}44;border-radius:6px;padding:.1rem .45rem;font-size:.72rem;font-weight:700">${job.source}</span>
+                <span style="font-size:.72rem;color:var(--text-light)">${postedLabel}</span>
+              </div>
+              <a href="${job.apply_url}" target="_blank" rel="noopener" class="btn-apply">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Apply
+              </a>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function resetFilters() {
+      document.getElementById('roleInput').value = user.career_goal || '';
+      document.getElementById('levelFilter').value = 'all';
+      document.getElementById('modeFilter').value = 'all';
+      document.getElementById('durationFilter').value = 'all';
+      userSkills = [];
+      renderSkillChips();
+      document.getElementById('resultsSection').style.display = 'none';
+      hideBanners();
+    }
+
+    // Enter key on role input
+    document.getElementById('roleInput').addEventListener('keydown', e => { if (e.key === 'Enter') searchInternships(); });
+
+    // Auto search on load if user has career goal
+    window.addEventListener('load', () => {
+      if (user.career_goal) searchInternships();
+    });
+  
+  </script>
+</body>
+</html>

@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Career Roadmap — CareerAI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root {
+      --green-dark: #0a6640;
+      --green-mid: #15a362;
+      --green-light: #1ecc7a;
+      --green-pale: #d4f5e4;
+      --green-ultra: #f0fdf7;
+      --white: #fff;
+      --off-white: #f8fffe;
+      --text-dark: #0a1f14;
+      --text-mid: #2d5a3d;
+      --text-light: #6b9e82;
+      --border: #c6ead8;
+      --error: #e53e3e;
+      --linkedin: #0077b5;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: var(--off-white);
+      color: var(--text-dark);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-family: Georgia, serif;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .85rem 4%;
+      background: rgba(255, 255, 255, .97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-family: Georgia, serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--green-dark);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      flex-shrink: 0;
+    }
+
+    .logo span {
+      color: var(--green-light);
+    }
+
+    .logo-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green-light);
+      display: inline-block;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: .2rem;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: .88rem;
+      color: var(--text-light);
+      padding: .45rem .85rem;
+      border-radius: 8px;
+      transition: all .15s;
+      font-family: Georgia, serif;
+    }
+
+    .nav-links a:hover {
+      color: var(--green-dark);
+      background: var(--green-ultra);
+    }
+
+    .nav-links a.active {
+      color: var(--green-dark);
+      background: var(--green-pale);
+      font-weight: 600;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      flex-shrink: 0;
+    }
+
+    .user-pill {
+      font-size: .83rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      background: var(--green-ultra);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: .35rem .9rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .user-pill .u-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--green-mid);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .75rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .btn-logout-nav {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .4rem 1rem;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      color: var(--text-light);
+      font-size: .82rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: #fff;
+      font-family: Georgia, serif;
+      transition: all .2s;
+    }
+
+    .btn-logout-nav:hover {
+      border-color: var(--error);
+      color: var(--error);
+    }
+
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      color: var(--text-dark);
+      cursor: pointer;
+    }
+
+    .nav-mobile {
+      display: none;
+      flex-direction: column;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: .8rem 4%;
+    }
+
+    .nav-mobile.open {
+      display: flex;
+    }
+
+    .nav-mobile a {
+      text-decoration: none;
+      color: var(--text-mid);
+      font-size: .92rem;
+      padding: .5rem 0;
+      border-bottom: 1px solid var(--green-ultra);
+      font-family: Georgia, serif;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 4%;
+    }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      background: var(--text-dark);
+      color: #8ab49a;
+      padding: 1.8rem 4%;
+      margin-top: 3rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: .82rem;
+    }
+
+    .footer-logo {
+      font-family: Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .footer-logo span {
+      color: var(--green-light);
+    }
+
+    .footer-inner a {
+      color: var(--green-light);
+      text-decoration: none;
+    }
+
+    /* ── CONFIG CARD ── */
+    .config-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .config-card h2 {
+      font-family: Georgia, sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 1.4rem;
+    }
+
+    .config-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.1rem;
+      margin-bottom: 1.3rem;
+    }
+
+    .config-group label {
+      display: block;
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      margin-bottom: .4rem;
+    }
+
+    .icon-wrap {
+      position: relative;
+    }
+
+    .icon-wrap i.field-icon {
+      position: absolute;
+      left: .85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      font-size: .85rem;
+      pointer-events: none;
+    }
+
+    .icon-wrap select,
+    .icon-wrap input {
+      width: 100%;
+      padding: .68rem .9rem .68rem 2.3rem;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: Georgia, sans-serif;
+      font-size: .9rem;
+      color: var(--text-dark);
+      background: var(--green-ultra);
+      outline: none;
+      transition: border .2s;
+    }
+
+    .icon-wrap select:focus,
+    .icon-wrap input:focus {
+      border-color: var(--green-mid);
+      background: #fff;
+    }
+
+    /* roadmap type toggle */
+    .type-toggle {
+      display: flex;
+      gap: .6rem;
+      margin-bottom: 1.3rem;
+    }
+
+    .type-btn {
+      flex: 1;
+      padding: .75rem;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      font-family: Georgia, sans-serif;
+      font-size: .88rem;
+      font-weight: 700;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+    }
+
+    .type-btn:hover {
+      border-color: var(--green-mid);
+      color: var(--green-mid);
+    }
+
+    .type-btn.active {
+      background: var(--green-mid);
+      color: #fff;
+      border-color: var(--green-mid);
+    }
+
+    .type-btn .type-desc {
+      font-size: .72rem;
+      font-weight: 400;
+      opacity: .85;
+      display: block;
+    }
+
+    .generate-btn {
+      width: 100%;
+      padding: .9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+      background: var(--green-mid);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-family: Georgia, sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .generate-btn:hover {
+      background: var(--green-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(21, 163, 98, .3);
+    }
+
+    .generate-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* banners */
+    .banner {
+      border-radius: 10px;
+      padding: .8rem 1.1rem;
+      font-size: .88rem;
+      display: none;
+      margin-bottom: 1.2rem;
+      align-items: center;
+      gap: .6rem;
+    }
+
+    .banner.error {
+      background: #fff5f5;
+      border: 1px solid #fed7d7;
+      color: var(--error);
+    }
+
+    .banner.info {
+      background: var(--green-pale);
+      border: 1px solid var(--border);
+      color: var(--green-dark);
+    }
+
+    .banner.show {
+      display: flex;
+    }
+
+    /* loading */
+    .loading-overlay {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding: 3rem;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      margin-bottom: 2rem;
+    }
+
+    .loading-overlay.show {
+      display: flex;
+    }
+
+    .big-spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid var(--green-pale);
+      border-top-color: var(--green-mid);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-text {
+      font-family: Georgia, sans-serif;
+      font-weight: 700;
+      color: var(--text-mid);
+      font-size: 1.1rem;
+    }
+
+    .loading-steps {
+      display: flex;
+      flex-direction: column;
+      gap: .3rem;
+      align-items: center;
+    }
+
+    .loading-step {
+      font-size: .83rem;
+      color: var(--text-light);
+    }
+
+    .loading-step.active {
+      color: var(--green-mid);
+      font-weight: 600;
+    }
+
+    /* ── ROADMAP RESULTS ── */
+    .roadmap-results {
+      display: none;
+      animation: fadeUp .4s ease both;
+    }
+
+    .roadmap-results.show {
+      display: block;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    /* header */
+    .roadmap-header {
+      background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 100%);
+      border-radius: 18px;
+      padding: 2rem;
+      margin-bottom: 1.6rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .roadmap-title-wrap h2 {
+      font-family: Georgia, sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    .roadmap-title-wrap p {
+      opacity: .8;
+      font-size: .9rem;
+      margin-top: .3rem;
+    }
+
+    .roadmap-meta {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .rmeta-item {
+      text-align: center;
+    }
+
+    .rmeta-val {
+      font-family: Georgia, sans-serif;
+      font-size: 1.4rem;
+      font-weight: 800;
+    }
+
+    .rmeta-lbl {
+      font-size: .72rem;
+      opacity: .75;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .btn-download {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .6rem 1.2rem;
+      background: rgba(255, 255, 255, .15);
+      border: 1px solid rgba(255, 255, 255, .3);
+      color: #fff;
+      border-radius: 8px;
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .btn-download:hover {
+      background: rgba(255, 255, 255, .25);
+    }
+
+    /* phase cards */
+    .phases-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    .phase-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .phase-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.2rem 1.5rem;
+      cursor: pointer;
+      border-bottom: 1px solid var(--green-ultra);
+      transition: background .15s;
+    }
+
+    .phase-header:hover {
+      background: var(--green-ultra);
+    }
+
+    .phase-num {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--green-mid);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Georgia, sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .phase-info {
+      flex: 1;
+    }
+
+    .phase-name {
+      font-family: Georgia, sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .phase-meta {
+      font-size: .8rem;
+      color: var(--text-light);
+      margin-top: .15rem;
+    }
+
+    .phase-chevron {
+      color: var(--text-light);
+      transition: transform .2s;
+      font-size: .9rem;
+    }
+
+    .phase-card.open .phase-chevron {
+      transform: rotate(180deg);
+    }
+
+    .phase-card.open .phase-header {
+      background: var(--green-ultra);
+    }
+
+    .phase-body {
+      display: none;
+      padding: 1.5rem;
+    }
+
+    .phase-card.open .phase-body {
+      display: block;
+      animation: fadeUp .2s ease both;
+    }
+
+    /* topics */
+    .topics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .topic-item {
+      background: var(--green-ultra);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+    }
+
+    .topic-name {
+      font-weight: 600;
+      font-size: .9rem;
+      color: var(--text-dark);
+      margin-bottom: .4rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .topic-name i {
+      color: var(--green-mid);
+      font-size: .8rem;
+    }
+
+    .topic-desc {
+      font-size: .8rem;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+
+    /* resources */
+    .resources-title {
+      font-family: Georgia, sans-serif;
+      font-size: .88rem;
+      font-weight: 700;
+      color: var(--text-mid);
+      margin-bottom: .8rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .resources-title i {
+      color: var(--green-mid);
+    }
+
+    .resources-list {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+
+    .resource-item {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .7rem 1rem;
+      font-size: .85rem;
+      text-decoration: none;
+      color: var(--text-mid);
+      transition: all .15s;
+    }
+
+    .resource-item:hover {
+      border-color: var(--green-mid);
+      color: var(--green-dark);
+      background: var(--green-ultra);
+    }
+
+    .resource-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .85rem;
+      flex-shrink: 0;
+    }
+
+    .resource-icon.youtube {
+      background: #fff0f0;
+      color: #e53e3e;
+    }
+
+    .resource-icon.course {
+      background: #fffbeb;
+      color: #d97706;
+    }
+
+    .resource-icon.docs {
+      background: var(--green-pale);
+      color: var(--green-dark);
+    }
+
+    .resource-icon.github {
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    .resource-icon.practice {
+      background: #f0f4ff;
+      color: #5b4fcf;
+    }
+
+    .resource-name {
+      flex: 1;
+      font-weight: 500;
+    }
+
+    .resource-tag {
+      font-size: .7rem;
+      font-weight: 700;
+      padding: .15rem .5rem;
+      border-radius: 50px;
+      background: var(--green-pale);
+      color: var(--green-dark);
+    }
+
+    /* project ideas */
+    .projects-title {
+      font-family: Georgia, sans-serif;
+      font-size: .88rem;
+      font-weight: 700;
+      color: var(--text-mid);
+      margin: 1.2rem 0 .8rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .projects-title i {
+      color: var(--green-mid);
+    }
+
+    .project-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+
+    .project-chip {
+      padding: .35rem .9rem;
+      background: var(--green-pale);
+      color: var(--green-dark);
+      border-radius: 50px;
+      font-size: .8rem;
+      font-weight: 600;
+    }
+
+    .project-chip i {
+      margin-right: .3rem;
+      font-size: .7rem;
+    }
+
+    /* skills tags */
+    .skills-section {
+      margin-bottom: 1.2rem;
+    }
+
+    .skill-tag {
+      display: inline-block;
+      padding: .25rem .7rem;
+      border-radius: 50px;
+      font-size: .78rem;
+      font-weight: 600;
+      margin: .2rem;
+      background: var(--green-pale);
+      color: var(--green-dark);
+    }
+
+    /* chat section */
+    .chat-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.5rem;
+      margin-top: 1.6rem;
+    }
+
+    .chat-card h3 {
+      font-family: Georgia, sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .chat-card h3 i {
+      color: var(--green-mid);
+    }
+
+    .chat-messages {
+      max-height: 320px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: .8rem;
+      margin-bottom: 1rem;
+      padding: .5rem 0;
+    }
+
+    .chat-msg {
+      max-width: 85%;
+      border-radius: 12px;
+      padding: .7rem 1rem;
+      font-size: .88rem;
+      line-height: 1.55;
+    }
+
+    .chat-msg.user {
+      background: var(--green-mid);
+      color: #fff;
+      align-self: flex-end;
+      border-radius: 12px 12px 2px 12px;
+    }
+
+    .chat-msg.ai {
+      background: var(--green-ultra);
+      color: var(--text-dark);
+      border: 1px solid var(--border);
+      align-self: flex-start;
+      border-radius: 12px 12px 12px 2px;
+    }
+
+    .chat-msg.loading {
+      opacity: .7;
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: .7rem;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: .72rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: Georgia, sans-serif;
+      font-size: .9rem;
+      color: var(--text-dark);
+      background: var(--green-ultra);
+      outline: none;
+      transition: border .2s;
+    }
+
+    .chat-input:focus {
+      border-color: var(--green-mid);
+      background: #fff;
+    }
+
+    .chat-send-btn {
+      padding: .72rem 1.2rem;
+      background: var(--green-mid);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: .9rem;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .chat-send-btn:hover {
+      background: var(--green-dark);
+    }
+
+    .chat-send-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .quick-questions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+      margin-bottom: .8rem;
+    }
+
+    .quick-q {
+      padding: .3rem .8rem;
+      background: var(--green-ultra);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      font-size: .78rem;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all .15s;
+    }
+
+    .quick-q:hover {
+      background: var(--green-pale);
+      color: var(--green-dark);
+      border-color: var(--green-mid);
+    }
+
+    @media(max-width: 900px) {
+      .main {
+        margin-left: 0;
+      }
+    }
+
+    @media(max-width: 600px) {
+      .type-toggle {
+        flex-direction: column;
+      }
+
+      .topics-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .page-header {
+      margin-bottom: 1.8rem;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-title {
+      font-family: Georgia, serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .page-sub {
+      font-size: .9rem;
+      color: var(--text-light);
+      margin-top: .25rem;
+    }
+
+    @media(max-width:760px) {
+      .nav-links {
+        display: none;
+      }
+
+      .nav-right {
+        display: none;
+      }
+
+      .nav-hamburger {
+        display: block;
+      }
+    }
+
+    @media(max-width:500px) {
+      .main {
+        padding: 1.2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="mainNav">
+    <a href="index.html" class="logo"><span class="logo-dot"></span>Career<span>AI</span></a>
+    <ul class="nav-links">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="github.html">GitHub</a></li>
+      <li><a href="linkedin.html">LinkedIn</a></li>
+      <li><a href="internships.html">Internships</a></li>
+      <li><a href="roadmap.html" class='active'>AI Roadmap</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="user-pill" id="userPill">
+        <div class="u-avatar" id="avatarInitial">U</div><span id="navName">User</span>
+      </div>
+      <button class="btn-logout-nav" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+    <button class="nav-hamburger" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
+  </nav>
+  <div class="nav-mobile" id="mobileMenu">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="resume.html">Resume Analyzer</a>
+    <a href="github.html">GitHub Analyzer</a>
+    <a href="linkedin.html">LinkedIn Analyzer</a>
+    <a href="internships.html">Internship Finder</a>
+    <a href="roadmap.html">AI Roadmap</a>
+  </div>
+
+  <div class="main">
+    <div class="page-header">
+      <div class="page-title"><i class="fa-solid fa-map-location-dot"
+          style="color:var(--green-mid);margin-right:.5rem"></i>AI Career Roadmap</div>
+      <div class="page-sub">Get a personalized step-by-step learning roadmap powered by Groq AI</div>
+    </div>
+    <!-- BANNERS -->
+    <div class="banner error" id="errorBanner"><i class="fa-solid fa-circle-exclamation"></i><span
+        id="errorText"></span></div>
+    <div class="banner info" id="infoBanner"><i class="fa-solid fa-circle-check"></i><span id="infoText"></span></div>
+
+    <!-- CONFIG CARD -->
+    <div class="config-card">
+      <h2><i class="fa-solid fa-sliders" style="color:var(--green-mid);margin-right:.5rem"></i>Configure Your Roadmap
+      </h2>
+
+      <div class="config-grid">
+        <div class="config-group">
+          <label>Career Goal</label>
+          <div class="icon-wrap">
+            <i class="fa-solid fa-bullseye field-icon"></i>
+            <select id="careerGoal">
+              <option value="">Select career path...</option>
+              <option value="Frontend Developer">Frontend Developer</option>
+              <option value="Backend Developer">Backend Developer</option>
+              <option value="Full Stack Developer">Full Stack Developer</option>
+              <option value="AI / ML Engineer">AI / ML Engineer</option>
+              <option value="Data Scientist">Data Scientist</option>
+              <option value="Data Analyst">Data Analyst</option>
+              <option value="DevOps Engineer">DevOps Engineer</option>
+              <option value="Cloud Engineer">Cloud Engineer</option>
+              <option value="Cybersecurity Specialist">Cybersecurity Specialist</option>
+              <option value="Android Developer">Android Developer</option>
+              <option value="iOS Developer">iOS Developer</option>
+            </select>
+          </div>
+        </div>
+        <div class="config-group">
+          <label>Current Level</label>
+          <div class="icon-wrap">
+            <i class="fa-solid fa-layer-group field-icon"></i>
+            <select id="currentLevel">
+              <option value="beginner">Beginner (No experience)</option>
+              <option value="intermediate">Intermediate (Some projects)</option>
+              <option value="advanced">Advanced (Work experience)</option>
+            </select>
+          </div>
+        </div>
+        <div class="config-group">
+          <label>Time Available</label>
+          <div class="icon-wrap">
+            <i class="fa-regular fa-clock field-icon"></i>
+            <select id="timeAvailable">
+              <option value="1 hour/day">1 hour/day</option>
+              <option value="2-3 hours/day">2–3 hours/day</option>
+              <option value="4-5 hours/day">4–5 hours/day</option>
+              <option value="full-time">Full-time (8h/day)</option>
+            </select>
+          </div>
+        </div>
+        <div class="config-group">
+          <label>Focus Area</label>
+          <div class="icon-wrap">
+            <i class="fa-solid fa-crosshairs field-icon"></i>
+            <select id="focusArea">
+              <option value="job-ready">Job Ready (Fastest path)</option>
+              <option value="deep-learning">Deep Learning</option>
+              <option value="portfolio">Portfolio Building</option>
+              <option value="interview">Interview Prep</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Roadmap type -->
+      <div style="margin-bottom:.8rem">
+        <label style="font-size:.82rem;font-weight:600;color:var(--text-mid);display:block;margin-bottom:.6rem">Roadmap
+          Type</label>
+        <div class="type-toggle">
+          <button class="type-btn active" id="simpleBtn" onclick="setType('simple', this)">
+            <i class="fa-solid fa-seedling"></i>
+            <span>
+              Simple
+              <span class="type-desc">Beginner-friendly path</span>
+            </span>
+          </button>
+          <button class="type-btn" id="advancedBtn" onclick="setType('advanced', this)">
+            <i class="fa-solid fa-fire"></i>
+            <span>
+              Advanced
+              <span class="type-desc">Job-ready, in-depth path</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <button class="generate-btn" id="generateBtn" onclick="generateRoadmap()">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        <span id="generateBtnText">Generate AI Roadmap</span>
+      </button>
+    </div>
+
+    <!-- LOADING -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="big-spinner"></div>
+      <div class="loading-text">Groq AI is building your roadmap...</div>
+      <div class="loading-steps">
+        <div class="loading-step active" id="step1"><i class="fa-solid fa-circle-notch fa-spin"></i> Analyzing your
+          career goal...</div>
+        <div class="loading-step" id="step2"><i class="fa-regular fa-circle"></i> Structuring learning phases...</div>
+        <div class="loading-step" id="step3"><i class="fa-regular fa-circle"></i> Curating free resources...</div>
+        <div class="loading-step" id="step4"><i class="fa-regular fa-circle"></i> Generating project ideas...</div>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="roadmap-results" id="roadmapResults">
+
+      <!-- Header -->
+      <div class="roadmap-header" id="roadmapHeader"></div>
+
+      <!-- Phases -->
+      <div class="phases-list" id="phasesList"></div>
+
+      <!-- AI Chatbot -->
+      <div class="chat-card">
+        <h3><i class="fa-solid fa-robot"></i> Ask CareerAI Anything</h3>
+        <div class="quick-questions" id="quickQuestions"></div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-row">
+          <input class="chat-input" type="text" id="chatInput"
+            placeholder="Ask about your roadmap, skills, interviews..." autocomplete="off" />
+          <button class="chat-send-btn" id="chatSendBtn" onclick="sendChat()"><i
+              class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-logo">Career<span>AI</span></span>
+      <span>© 2025 CareerAI · Built for students</span>
+      <span><a href="index.html">Home</a> · <a href="dashboard.html">Dashboard</a></span>
+    </div>
+  </footer>
+
+  <script>
+
+    function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+    function doLogout() { localStorage.removeItem('token'); localStorage.removeItem('user'); window.location.href = 'login.html'; }
+    const token = localStorage.getItem('token');
+    if (!token) window.location.href = 'login.html';
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (user.first_name) {
+      document.getElementById('navName').textContent = user.first_name;
+      document.getElementById('avatarInitial').textContent = user.first_name[0].toUpperCase();
+    }
+    document.getElementById('logoutBtn').onclick = doLogout;
+
+
+    const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://localhost:8000'
+      : window.location.origin;
+    let roadmapType = 'simple';
+    let currentRoadmap = null;
+    let chatHistory = [];
+    // Pre-fill career goal
+    if (user.career_goal) {
+      const sel = document.getElementById('careerGoal');
+      for (let opt of sel.options) { if (opt.value === user.career_goal) { sel.value = user.career_goal; break; } }
+    }
+
+
+
+    function setType(type, el) {
+      roadmapType = type;
+      document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function showBanner(type, msg) {
+      hideBanners();
+      const el = document.getElementById(type === 'error' ? 'errorBanner' : 'infoBanner');
+      document.getElementById(type === 'error' ? 'errorText' : 'infoText').textContent = msg;
+      el.classList.add('show');
+      if (type === 'info') setTimeout(() => el.classList.remove('show'), 5000);
+    }
+    function hideBanners() {
+      document.getElementById('errorBanner').classList.remove('show');
+      document.getElementById('infoBanner').classList.remove('show');
+    }
+
+    // Animate loading steps
+    function animateLoadingSteps() {
+      const steps = ['step1', 'step2', 'step3', 'step4'];
+      steps.forEach(s => {
+        const el = document.getElementById(s);
+        el.classList.remove('active');
+        el.querySelector('i').className = 'fa-regular fa-circle';
+      });
+      let i = 0;
+      const interval = setInterval(() => {
+        if (i > 0) {
+          const prev = document.getElementById(steps[i - 1]);
+          prev.querySelector('i').className = 'fa-solid fa-circle-check';
+          prev.style.color = 'var(--green-mid)';
+        }
+        if (i < steps.length) {
+          const cur = document.getElementById(steps[i]);
+          cur.classList.add('active');
+          cur.querySelector('i').className = 'fa-solid fa-circle-notch fa-spin';
+        } else { clearInterval(interval); }
+        i++;
+      }, 900);
+      return interval;
+    }
+
+    async function generateRoadmap() {
+      const goal = document.getElementById('careerGoal').value;
+      const level = document.getElementById('currentLevel').value;
+      const time = document.getElementById('timeAvailable').value;
+      const focus = document.getElementById('focusArea').value;
+
+      if (!goal) { showBanner('error', 'Please select a career goal.'); return; }
+
+      const btn = document.getElementById('generateBtn');
+      const btnText = document.getElementById('generateBtnText');
+      btn.disabled = true;
+      btnText.textContent = 'Generating...';
+      document.getElementById('loadingOverlay').classList.add('show');
+      document.getElementById('roadmapResults').classList.remove('show');
+      hideBanners();
+
+      const stepInterval = animateLoadingSteps();
+
+      try {
+        const res = await fetch(`${API}/roadmap/generate`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ career_goal: goal, level, time_available: time, focus_area: focus, roadmap_type: roadmapType })
+        });
+        const data = await res.json();
+        clearInterval(stepInterval);
+        if (!res.ok) throw new Error(data.detail || 'Generation failed');
+
+        currentRoadmap = data;
+        renderRoadmap(data);
+        showBanner('info', `Your ${roadmapType} roadmap for ${goal} is ready!`);
+      } catch (err) {
+        clearInterval(stepInterval);
+        showBanner('error', err.message || 'Could not connect to server.');
+      } finally {
+        document.getElementById('loadingOverlay').classList.remove('show');
+        btn.disabled = false;
+        btnText.textContent = 'Generate AI Roadmap';
+      }
+    }
+
+    function renderRoadmap(data) {
+      // Header
+      document.getElementById('roadmapHeader').innerHTML = `
+        <div class="roadmap-title-wrap">
+          <h2><i class="fa-solid fa-map-location-dot" style="margin-right:.5rem;opacity:.8"></i>${data.career_goal} Roadmap</h2>
+          <p>${data.roadmap_type === 'simple' ? 'Beginner-friendly' : 'Advanced job-ready'} path · ${data.level} level · ${data.time_available}</p>
+        </div>
+        <div class="roadmap-meta">
+          <div class="rmeta-item"><div class="rmeta-val">${data.phases?.length || 0}</div><div class="rmeta-lbl">Phases</div></div>
+          <div class="rmeta-item"><div class="rmeta-val">${data.total_weeks || '?'}</div><div class="rmeta-lbl">Weeks</div></div>
+          <div class="rmeta-item"><div class="rmeta-val">${data.total_topics || '?'}</div><div class="rmeta-lbl">Topics</div></div>
+        </div>
+        <button class="btn-download" onclick="downloadRoadmap()"><i class="fa-solid fa-download"></i> Save</button>
+      `;
+
+      // Phases
+      const phasesList = document.getElementById('phasesList');
+      phasesList.innerHTML = '';
+      (data.phases || []).forEach((phase, idx) => {
+        const card = document.createElement('div');
+        card.className = 'phase-card';
+        if (idx === 0) card.classList.add('open');
+
+        const resourcesHtml = (phase.resources || []).map(r => {
+          const iconClass = r.type === 'youtube' ? 'youtube' : r.type === 'course' ? 'course' : r.type === 'github' ? 'github' : r.type === 'practice' ? 'practice' : 'docs';
+          const iconName = r.type === 'youtube' ? 'fa-brands fa-youtube' : r.type === 'course' ? 'fa-solid fa-graduation-cap' : r.type === 'github' ? 'fa-brands fa-github' : r.type === 'practice' ? 'fa-solid fa-code' : 'fa-solid fa-book';
+          return `
+            <a href="${r.url}" target="_blank" class="resource-item">
+              <div class="resource-icon ${iconClass}"><i class="${iconName}"></i></div>
+              <span class="resource-name">${r.name}</span>
+              <span class="resource-tag">${r.type}</span>
+            </a>`;
+        }).join('');
+
+        const topicsHtml = (phase.topics || []).map(t => `
+          <div class="topic-item">
+            <div class="topic-name"><i class="fa-solid fa-circle-dot"></i>${t.name}</div>
+            <div class="topic-desc">${t.description || ''}</div>
+          </div>`).join('');
+
+        const projectsHtml = (phase.projects || []).map(p =>
+          `<div class="project-chip"><i class="fa-solid fa-hammer"></i>${p}</div>`
+        ).join('');
+
+        card.innerHTML = `
+          <div class="phase-header" onclick="togglePhase(this)">
+            <div class="phase-num">${idx + 1}</div>
+            <div class="phase-info">
+              <div class="phase-name">${phase.name}</div>
+              <div class="phase-meta"><i class="fa-regular fa-clock" style="margin-right:.3rem"></i>${phase.duration} · ${(phase.topics || []).length} topics</div>
+            </div>
+            <i class="fa-solid fa-chevron-down phase-chevron"></i>
+          </div>
+          <div class="phase-body">
+            <div class="topics-grid">${topicsHtml}</div>
+            ${phase.skills_gained?.length ? `
+              <div class="skills-section">
+                <div class="resources-title"><i class="fa-solid fa-check-circle"></i> Skills You'll Gain</div>
+                <div>${(phase.skills_gained || []).map(s => `<span class="skill-tag">${s}</span>`).join('')}</div>
+              </div>` : ''}
+            ${resourcesHtml ? `
+              <div class="resources-title" style="margin-top:1rem"><i class="fa-solid fa-book-open"></i> Free Resources</div>
+              <div class="resources-list">${resourcesHtml}</div>` : ''}
+            ${projectsHtml ? `
+              <div class="projects-title"><i class="fa-solid fa-hammer"></i> Project Ideas</div>
+              <div class="project-chips">${projectsHtml}</div>` : ''}
+          </div>`;
+        phasesList.appendChild(card);
+      });
+
+      // Quick questions for chatbot
+      const quickQs = [
+        `How long to become a ${data.career_goal}?`,
+        'What are the most important skills to focus on?',
+        'How do I prepare for interviews?',
+        'What projects should I build for my portfolio?',
+        'What certifications should I get?',
+      ];
+      document.getElementById('quickQuestions').innerHTML = quickQs.map(q =>
+        `<button class="quick-q" onclick="askQuick('${q}')">${q}</button>`
+      ).join('');
+
+      // Add welcome message
+      chatHistory = [];
+      document.getElementById('chatMessages').innerHTML = '';
+      addChatMessage('ai', `Hi ${user.first_name || 'there'}! I just generated your <strong>${data.career_goal}</strong> roadmap. Ask me anything about it — skills, resources, interviews, projects, or career advice!`);
+
+      document.getElementById('roadmapResults').classList.add('show');
+      document.getElementById('roadmapResults').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function togglePhase(header) {
+      const card = header.parentElement;
+      card.classList.toggle('open');
+    }
+
+    function addChatMessage(role, text) {
+      const msgs = document.getElementById('chatMessages');
+      const div = document.createElement('div');
+      div.className = `chat-msg ${role}`;
+      div.innerHTML = text;
+      msgs.appendChild(div);
+      msgs.scrollTop = msgs.scrollHeight;
+      return div;
+    }
+
+    function askQuick(q) {
+      document.getElementById('chatInput').value = q;
+      sendChat();
+    }
+
+    async function sendChat() {
+      const input = document.getElementById('chatInput');
+      const msg = input.value.trim();
+      if (!msg) return;
+      input.value = '';
+
+      addChatMessage('user', msg);
+      chatHistory.push({ role: 'user', content: msg });
+
+      const sendBtn = document.getElementById('chatSendBtn');
+      sendBtn.disabled = true;
+
+      const loadingDiv = addChatMessage('ai loading', '<i class="fa-solid fa-circle-notch fa-spin"></i> Thinking...');
+
+      try {
+        const roadmapContext = currentRoadmap ?
+          `The user is following a ${currentRoadmap.career_goal} roadmap (${currentRoadmap.roadmap_type}, ${currentRoadmap.level} level). ` : '';
+
+        const res = await fetch(`${API}/roadmap/chat`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: msg, history: chatHistory.slice(-6), context: roadmapContext })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Chat failed');
+
+        loadingDiv.className = 'chat-msg ai';
+        loadingDiv.innerHTML = data.reply.replace(/\n/g, '<br>');
+        chatHistory.push({ role: 'assistant', content: data.reply });
+      } catch (err) {
+        loadingDiv.className = 'chat-msg ai';
+        loadingDiv.innerHTML = `Sorry, I couldn't connect. Make sure your Groq API key is set in the backend .env file.`;
+      } finally {
+        sendBtn.disabled = false;
+      }
+    }
+
+    // Enter key for chat
+    document.getElementById('chatInput').addEventListener('keydown', e => { if (e.key === 'Enter') sendChat(); });
+
+    function downloadRoadmap() {
+      if (!currentRoadmap) return;
+      const json = JSON.stringify(currentRoadmap, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `${currentRoadmap.career_goal.replace(/ /g, '-')}-roadmap.json`;
+      a.click(); URL.revokeObjectURL(url);
+    }
+
+  </script>
+</body>
+
+</html>

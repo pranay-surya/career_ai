@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — CareerAI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root {
+      --green-dark: #0a6640;
+      --green-mid: #15a362;
+      --green-light: #1ecc7a;
+      --green-pale: #d4f5e4;
+      --green-ultra: #f0fdf7;
+      --white: #fff;
+      --off-white: #f8fffe;
+      --text-dark: #0a1f14;
+      --text-mid: #2d5a3d;
+      --text-light: #6b9e82;
+      --border: #c6ead8;
+      --error: #e53e3e;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: var(--off-white);
+      color: var(--text-dark);
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .85rem 4%;
+      background: rgba(255, 255, 255, .97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-family: Georgia, serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--green-dark);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      flex-shrink: 0;
+    }
+
+    .logo span {
+      color: var(--green-light);
+    }
+
+    .logo-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green-light);
+      display: inline-block;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: .2rem;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: .88rem;
+      color: var(--text-light);
+      padding: .45rem .85rem;
+      border-radius: 8px;
+      transition: all .15s;
+      font-family: Georgia, serif;
+    }
+
+    .nav-links a:hover {
+      color: var(--green-dark);
+      background: var(--green-ultra);
+    }
+
+    .nav-links a.active {
+      color: var(--green-dark);
+      background: var(--green-pale);
+      font-weight: 600;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      flex-shrink: 0;
+    }
+
+    .user-pill {
+      font-size: .83rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      background: var(--green-ultra);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: .35rem .9rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .user-pill .avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--green-mid);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .75rem;
+      font-weight: 700;
+    }
+
+    .btn-logout-nav {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .4rem 1rem;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      color: var(--text-light);
+      font-size: .82rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--white);
+      font-family: Georgia, serif;
+      transition: all .2s;
+    }
+
+    .btn-logout-nav:hover {
+      border-color: var(--error);
+      color: var(--error);
+    }
+
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      color: var(--text-dark);
+      cursor: pointer;
+    }
+
+    .nav-mobile {
+      display: none;
+      flex-direction: column;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: .8rem 4%;
+    }
+
+    .nav-mobile.open {
+      display: flex;
+    }
+
+    .nav-mobile a {
+      text-decoration: none;
+      color: var(--text-mid);
+      font-size: .92rem;
+      padding: .5rem 0;
+      border-bottom: 1px solid var(--green-ultra);
+      font-family: Georgia, serif;
+    }
+
+    /* ── MAIN ── */
+    .main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 4%;
+    }
+
+    .page-header {
+      margin-bottom: 2rem;
+    }
+
+    .page-title {
+      font-family: Georgia, serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .page-sub {
+      font-size: .9rem;
+      color: var(--text-light);
+      margin-top: .2rem;
+    }
+
+    /* welcome */
+    .welcome-card {
+      background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+      border-radius: 18px;
+      padding: 2rem;
+      color: #fff;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .welcome-text h2 {
+      font-family: Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .welcome-text p {
+      opacity: .8;
+      margin-top: .3rem;
+      font-size: .95rem;
+    }
+
+    .welcome-actions {
+      display: flex;
+      gap: .8rem;
+      flex-wrap: wrap;
+    }
+
+    .wb {
+      padding: .6rem 1.3rem;
+      border-radius: 9px;
+      font-size: .88rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-family: Georgia, serif;
+    }
+
+    .wb-primary {
+      background: rgba(255, 255, 255, .2);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, .3);
+    }
+
+    .wb-primary:hover {
+      background: rgba(255, 255, 255, .3);
+    }
+
+    .wb-white {
+      background: #fff;
+      color: var(--green-dark);
+    }
+
+    .wb-white:hover {
+      background: var(--green-pale);
+    }
+
+    /* stat cards */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--green-mid);
+    }
+
+    .stat-card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--green-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green-dark);
+      font-size: 1rem;
+      margin-bottom: .8rem;
+    }
+
+    .stat-card-val {
+      font-family: Georgia, serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .stat-card-lbl {
+      font-size: .78rem;
+      color: var(--text-light);
+      margin-top: .2rem;
+    }
+
+    .stat-card-badge {
+      font-size: .72rem;
+      font-weight: 700;
+      padding: .18rem .55rem;
+      border-radius: 50px;
+      background: var(--green-pale);
+      color: var(--green-dark);
+      margin-top: .5rem;
+      display: inline-block;
+    }
+
+    /* modules grid */
+    .section-label {
+      font-family: Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 1.2rem;
+    }
+
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .module-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      text-decoration: none;
+      transition: all .2s;
+      display: block;
+    }
+
+    .module-card:hover {
+      box-shadow: 0 8px 28px rgba(10, 102, 64, .1);
+      transform: translateY(-3px);
+      border-color: var(--green-mid);
+    }
+
+    .module-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 13px;
+      background: var(--green-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: var(--green-dark);
+      margin-bottom: 1rem;
+    }
+
+    .module-name {
+      font-family: Georgia, serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: .3rem;
+    }
+
+    .module-desc {
+      font-size: .83rem;
+      color: var(--text-light);
+      line-height: 1.55;
+    }
+
+    .module-arrow {
+      color: var(--green-mid);
+      font-size: .85rem;
+      margin-top: .8rem;
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+      font-weight: 600;
+    }
+
+    /* tips */
+    .tips-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .tips-card h3 {
+      font-family: Georgia, serif;
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .tips-card h3 i {
+      color: var(--green-mid);
+    }
+
+    .tip-item {
+      display: flex;
+      align-items: flex-start;
+      gap: .7rem;
+      padding: .6rem 0;
+      border-bottom: 1px solid var(--green-ultra);
+      font-size: .88rem;
+      color: var(--text-mid);
+      line-height: 1.55;
+    }
+
+    .tip-item:last-child {
+      border-bottom: none;
+    }
+
+    .tip-item i {
+      color: var(--green-mid);
+      margin-top: .15rem;
+      flex-shrink: 0;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--text-dark);
+      color: #8ab49a;
+      padding: 2rem 4%;
+      margin-top: 3rem;
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: .82rem;
+    }
+
+    .footer-bottom a {
+      color: var(--green-light);
+      text-decoration: none;
+    }
+
+    .footer-logo {
+      font-family: Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .footer-logo span {
+      color: var(--green-light);
+    }
+
+    @media(max-width:760px) {
+      .nav-links {
+        display: none;
+      }
+
+      .nav-right {
+        display: none;
+      }
+
+      .nav-hamburger {
+        display: block;
+      }
+    }
+
+    @media(max-width:500px) {
+      .stats-row {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="mainNav">
+    <a href="index.html" class="logo"><span class="logo-dot"></span>Career<span>AI</span></a>
+    <ul class="nav-links">
+      <li><a href="dashboard.html" class="active">Dashboard</a></li>
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="github.html">GitHub</a></li>
+      <li><a href="linkedin.html">LinkedIn</a></li>
+      <li><a href="internships.html">Internships</a></li>
+      <li><a href="roadmap.html">AI Roadmap</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="user-pill" id="userPill">
+        <div class="avatar" id="avatarInitial">U</div><span id="navName">User</span>
+      </div>
+      <button class="btn-logout-nav" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </div>
+    <button class="nav-hamburger" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
+  </nav>
+  <div class="nav-mobile" id="mobileMenu">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="resume.html">Resume Analyzer</a>
+    <a href="github.html">GitHub Analyzer</a>
+    <a href="linkedin.html">LinkedIn Analyzer</a>
+    <a href="internships.html">Internship Finder</a>
+    <a href="roadmap.html">AI Roadmap</a>
+  </div>
+
+  <div class="main">
+    <div class="page-header">
+      <div class="page-title">Dashboard</div>
+      <div class="page-sub" id="greetingSub">Welcome back! Here's your career overview.</div>
+    </div>
+
+    <!-- Welcome -->
+    <div class="welcome-card">
+      <div class="welcome-text">
+        <h2>Hello, <span id="welcomeName">there</span>! 👋</h2>
+        <p id="welcomeSub">Ready to accelerate your career today?</p>
+      </div>
+      <div class="welcome-actions">
+        <a href="resume.html" class="wb wb-primary"><i class="fa-regular fa-file-lines"></i> Analyze Resume</a>
+        <a href="roadmap.html" class="wb wb-white"><i class="fa-solid fa-wand-magic-sparkles"></i> Get AI Roadmap</a>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-card-icon"><i class="fa-regular fa-file-lines"></i></div>
+        <div class="stat-card-val" id="atsScore">—</div>
+        <div class="stat-card-lbl">ATS Score</div>
+        <div class="stat-card-badge" id="atsBadge">Not analyzed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon"><i class="fa-brands fa-github"></i></div>
+        <div class="stat-card-val" id="githubScore">—</div>
+        <div class="stat-card-lbl">GitHub Score</div>
+        <div class="stat-card-badge" id="githubBadge">Not analyzed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon"><i class="fa-brands fa-linkedin" style="color:#0077b5"></i></div>
+        <div class="stat-card-val" id="linkedinScore">—</div>
+        <div class="stat-card-lbl">LinkedIn Score</div>
+        <div class="stat-card-badge" id="linkedinBadge">Not analyzed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon"><i class="fa-solid fa-bullseye"></i></div>
+        <div class="stat-card-val" id="careerGoalVal">—</div>
+        <div class="stat-card-lbl">Career Goal</div>
+        <div class="stat-card-badge">Set in profile</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon"><i class="fa-solid fa-briefcase"></i></div>
+        <div class="stat-card-val">20+</div>
+        <div class="stat-card-lbl">Internships Available</div>
+        <div class="stat-card-badge">Updated daily</div>
+      </div>
+    </div>
+
+    <!-- Modules -->
+    <div class="section-label">Quick Access</div>
+    <div class="modules-grid">
+      <a href="resume.html" class="module-card">
+        <div class="module-icon"><i class="fa-regular fa-file-lines"></i></div>
+        <div class="module-name">Resume Analyzer</div>
+        <div class="module-desc">Upload your resume and get ATS score, skill gaps & improvement suggestions instantly.
+        </div>
+        <div class="module-arrow"><i class="fa-solid fa-arrow-right"></i> Open</div>
+      </a>
+      <a href="github.html" class="module-card">
+        <div class="module-icon"><i class="fa-brands fa-github"></i></div>
+        <div class="module-name">GitHub Analyzer</div>
+        <div class="module-desc">Analyze any GitHub profile — repos, languages, tech stack & recruiter attractiveness
+          score.</div>
+        <div class="module-arrow"><i class="fa-solid fa-arrow-right"></i> Open</div>
+      </a>
+      <a href="linkedin.html" class="module-card">
+        <div class="module-icon"><i class="fa-brands fa-linkedin" style="color:#0077b5"></i></div>
+        <div class="module-name">LinkedIn Analyzer</div>
+        <div class="module-desc">Paste your profile data and get headline optimization, skill gaps & networking tips.
+        </div>
+        <div class="module-arrow"><i class="fa-solid fa-arrow-right"></i> Open</div>
+      </a>
+      <a href="internships.html" class="module-card">
+        <div class="module-icon"><i class="fa-solid fa-briefcase"></i></div>
+        <div class="module-name">Internship Finder</div>
+        <div class="module-desc">AI-matched internships from top platforms — filtered by your skills, level & location.
+        </div>
+        <div class="module-arrow"><i class="fa-solid fa-arrow-right"></i> Open</div>
+      </a>
+      <a href="roadmap.html" class="module-card">
+        <div class="module-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+        <div class="module-name">AI Career Roadmap</div>
+        <div class="module-desc">Get a Groq-powered personalized roadmap with phases, resources, projects & chatbot.
+        </div>
+        <div class="module-arrow"><i class="fa-solid fa-arrow-right"></i> Open</div>
+      </a>
+    </div>
+
+    <!-- Tips -->
+    <div class="tips-card">
+      <h3><i class="fa-solid fa-lightbulb"></i> Quick Career Tips</h3>
+      <div class="tip-item"><i class="fa-solid fa-circle-right"></i>Analyze your resume first to get your ATS score and
+        know exactly which skills to add.</div>
+      <div class="tip-item"><i class="fa-solid fa-circle-right"></i>A GitHub profile with 10+ repos and good READMEs
+        significantly boosts recruiter interest.</div>
+      <div class="tip-item"><i class="fa-solid fa-circle-right"></i>Apply to Beginner internships even without
+        experience — most only need basic projects.</div>
+      <div class="tip-item"><i class="fa-solid fa-circle-right"></i>Use the AI Roadmap chatbot to ask interview
+        questions, get project ideas or career advice.</div>
+      <div class="tip-item"><i class="fa-solid fa-circle-right"></i>Consistency beats intensity — 2 focused hours daily
+        beats an 8-hour weekend session.</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-bottom">
+      <span class="footer-logo">Career<span>AI</span></span>
+      <span>© 2025 CareerAI · Built for students</span>
+      <span><a href="index.html">Home</a> · <a href="login.html">Login</a></span>
+    </div>
+  </footer>
+
+  <script>
+    const token = localStorage.getItem('token');
+    if (!token) window.location.href = 'login.html';
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (user.first_name) {
+      const name = `${user.first_name} ${user.last_name}`;
+      document.getElementById('navName').textContent = user.first_name;
+      document.getElementById('avatarInitial').textContent = user.first_name[0].toUpperCase();
+      document.getElementById('welcomeName').textContent = user.first_name;
+      document.getElementById('sidebarEmail') && (document.getElementById('sidebarEmail').textContent = user.email);
+    }
+    if (user.career_goal) {
+      document.getElementById('careerGoalVal').textContent = user.career_goal.split(' ').slice(0, 2).join(' ');
+      document.getElementById('welcomeSub').textContent = `Your goal: ${user.career_goal}. Let's get you there!`;
+    }
+    if (user.resume_ats_score) { document.getElementById('atsScore').textContent = user.resume_ats_score; document.getElementById('atsBadge').textContent = user.resume_ats_score >= 70 ? 'Good' : 'Needs Work'; }
+    if (user.github_score) { document.getElementById('githubScore').textContent = user.github_score; document.getElementById('githubBadge').textContent = user.github_score >= 70 ? 'Strong' : 'Average'; }
+    if (user.linkedin_score) { document.getElementById('linkedinScore').textContent = user.linkedin_score; document.getElementById('linkedinBadge').textContent = user.linkedin_score >= 70 ? 'Strong' : 'Average'; }
+
+    const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://localhost:8000' : window.location.origin;
+    fetch(`${API}/auth/me`, { headers: { 'Authorization': `Bearer ${token}` } })
+      .then(r => r.json()).then(u => {
+        if (u.resume_ats_score) { document.getElementById('atsScore').textContent = u.resume_ats_score; document.getElementById('atsBadge').textContent = u.resume_ats_score >= 70 ? 'Good' : 'Needs Work'; }
+        if (u.github_score) { document.getElementById('githubScore').textContent = u.github_score; document.getElementById('githubBadge').textContent = u.github_score >= 70 ? 'Strong' : 'Average'; }
+        if (u.linkedin_score) { document.getElementById('linkedinScore').textContent = u.linkedin_score; document.getElementById('linkedinBadge').textContent = u.linkedin_score >= 70 ? 'Strong' : 'Average'; }
+        if (u.career_goal) document.getElementById('careerGoalVal').textContent = u.career_goal.split(' ').slice(0, 2).join(' ');
+        localStorage.setItem('user', JSON.stringify(u));
+      }).catch(() => { });
+
+    document.getElementById('logoutBtn').onclick = doLogout;
+    function doLogout() { localStorage.removeItem('token'); localStorage.removeItem('user'); window.location.href = 'login.html'; }
+    function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+  </script>
+</body>
+
+</html>

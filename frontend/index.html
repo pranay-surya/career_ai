@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CareerAI — Your Intelligent Career Partner</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root {
+      --green-dark: #0a6640;
+      --green-mid: #15a362;
+      --green-light: #1ecc7a;
+      --green-pale: #d4f5e4;
+      --green-ultra: #f0fdf7;
+      --white: #fff;
+      --off-white: #f8fffe;
+      --text-dark: #0a1f14;
+      --text-mid: #2d5a3d;
+      --text-light: #6b9e82;
+      --border: #c6ead8;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: var(--white);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 5%;
+      background: rgba(255, 255, 255, .95);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow .2s;
+    }
+
+    nav.scrolled {
+      box-shadow: 0 2px 20px rgba(10, 102, 64, .08);
+    }
+
+    .logo {
+      font-family: Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--green-dark);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      letter-spacing: -.01em;
+    }
+
+    .logo span {
+      color: var(--green-light);
+    }
+
+    .logo-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green-light);
+      display: inline-block;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: .95rem;
+      color: var(--text-mid);
+      transition: color .2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--green-mid);
+    }
+
+    .nav-cta {
+      display: flex;
+      gap: .7rem;
+      align-items: center;
+    }
+
+    .btn-outline {
+      padding: .5rem 1.3rem;
+      border-radius: 8px;
+      border: 1.5px solid var(--green-mid);
+      color: var(--green-mid);
+      font-weight: 600;
+      font-size: .9rem;
+      text-decoration: none;
+      transition: all .2s;
+      font-family: Georgia, serif;
+    }
+
+    .btn-outline:hover {
+      background: var(--green-pale);
+    }
+
+    .btn-solid {
+      padding: .5rem 1.3rem;
+      border-radius: 8px;
+      background: var(--green-mid);
+      color: #fff;
+      font-weight: 700;
+      font-size: .9rem;
+      text-decoration: none;
+      transition: all .2s;
+      font-family: Georgia, serif;
+    }
+
+    .btn-solid:hover {
+      background: var(--green-dark);
+    }
+
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      color: var(--text-dark);
+      cursor: pointer;
+    }
+
+    .nav-mobile {
+      display: none;
+      flex-direction: column;
+      gap: .5rem;
+      padding: 1rem 5%;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-mobile.open {
+      display: flex;
+    }
+
+    .nav-mobile a {
+      text-decoration: none;
+      color: var(--text-mid);
+      font-size: .95rem;
+      padding: .5rem 0;
+      border-bottom: 1px solid var(--green-ultra);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 5% 4rem;
+      background: var(--off-white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 480px;
+      height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #c6f0db 0%, transparent 70%);
+      z-index: 0;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      left: -80px;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #b2ead0 0%, transparent 70%);
+      z-index: 0;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: var(--green-pale);
+      color: var(--green-dark);
+      padding: .4rem 1rem;
+      border-radius: 50px;
+      font-size: .82rem;
+      font-weight: 600;
+      margin-bottom: 1.8rem;
+      z-index: 1;
+      border: 1px solid #a8dfc0;
+      animation: fadeUp .6s ease both;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green-light);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .4
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .hero h1 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(2.6rem, 6vw, 4.8rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--text-dark);
+      max-width: 780px;
+      z-index: 1;
+      animation: fadeUp .7s .1s ease both;
+      letter-spacing: -.02em;
+    }
+
+    .hero h1 .accent {
+      color: var(--green-mid);
+    }
+
+    .hero p {
+      margin: 1.5rem auto 0;
+      font-size: clamp(1rem, 2vw, 1.18rem);
+      color: var(--text-light);
+      max-width: 560px;
+      line-height: 1.75;
+      z-index: 1;
+      animation: fadeUp .7s .2s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2.4rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      z-index: 1;
+      animation: fadeUp .7s .3s ease both;
+    }
+
+    .btn-hero {
+      padding: .85rem 2rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all .25s;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-family: Georgia, serif;
+    }
+
+    .btn-hero-primary {
+      background: var(--green-mid);
+      color: #fff;
+    }
+
+    .btn-hero-primary:hover {
+      background: var(--green-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(21, 163, 98, .3);
+    }
+
+    .btn-hero-secondary {
+      background: #fff;
+      color: var(--green-dark);
+      border: 1.5px solid var(--border);
+    }
+
+    .btn-hero-secondary:hover {
+      background: var(--green-pale);
+      transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 3.5rem;
+      z-index: 1;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeUp .7s .4s ease both;
+    }
+
+    .stat-num {
+      font-family: Georgia, serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--green-dark);
+    }
+
+    .stat-label {
+      font-size: .83rem;
+      color: var(--text-light);
+      margin-top: .2rem;
+    }
+
+    .hero-cards {
+      display: flex;
+      gap: 1rem;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      z-index: 1;
+      animation: fadeUp .8s .5s ease both;
+    }
+
+    .mini-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      font-size: .88rem;
+      font-weight: 500;
+      color: var(--text-mid);
+      box-shadow: 0 4px 18px rgba(10, 102, 64, .07);
+      transition: transform .2s;
+    }
+
+    .mini-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .mini-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--green-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .95rem;
+      color: var(--green-dark);
+    }
+
+    /* ── FEATURES ── */
+    .section-divider {
+      width: 50px;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--green-light);
+      margin: 0 auto 1.2rem;
+    }
+
+    .features {
+      padding: 6rem 5%;
+      background: var(--white);
+    }
+
+    .section-title {
+      text-align: center;
+      font-family: Georgia, serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: .8rem;
+    }
+
+    .section-sub {
+      text-align: center;
+      color: var(--text-light);
+      font-size: 1rem;
+      max-width: 520px;
+      margin: 0 auto 3.5rem;
+      line-height: 1.7;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1.6rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 2rem;
+      transition: all .25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--green-mid), var(--green-light));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .3s;
+    }
+
+    .feature-card:hover {
+      box-shadow: 0 12px 36px rgba(10, 102, 64, .1);
+      transform: translateY(-4px);
+    }
+
+    .feature-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 13px;
+      background: var(--green-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: var(--green-dark);
+      margin-bottom: 1.2rem;
+    }
+
+    .feature-card h3 {
+      font-family: Georgia, serif;
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: .6rem;
+    }
+
+    .feature-card p {
+      font-size: .93rem;
+      color: var(--text-light);
+      line-height: 1.65;
+    }
+
+    .feature-tags {
+      display: flex;
+      gap: .4rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .tag {
+      font-size: .75rem;
+      font-weight: 600;
+      padding: .25rem .65rem;
+      border-radius: 50px;
+      background: var(--green-pale);
+      color: var(--green-dark);
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how {
+      padding: 6rem 5%;
+      background: var(--green-ultra);
+    }
+
+    .steps {
+      display: flex;
+      gap: 0;
+      max-width: 900px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .step {
+      flex: 1;
+      min-width: 200px;
+      text-align: center;
+      padding: 1.5rem 1rem;
+      position: relative;
+    }
+
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 2.5rem;
+      right: -1px;
+      width: 2px;
+      height: 40px;
+      background: var(--border);
+    }
+
+    .step-num {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--green-mid);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 0 auto 1rem;
+    }
+
+    .step h4 {
+      font-family: Georgia, serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: .4rem;
+    }
+
+    .step p {
+      font-size: .88rem;
+      color: var(--text-light);
+      line-height: 1.55;
+    }
+
+    /* ── CTA ── */
+    .cta-banner {
+      padding: 5rem 5%;
+      background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 100%);
+      text-align: center;
+      color: #fff;
+    }
+
+    .cta-banner h2 {
+      font-family: Georgia, serif;
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .cta-banner p {
+      font-size: 1.05rem;
+      opacity: .85;
+      max-width: 480px;
+      margin: 0 auto 2rem;
+      line-height: 1.65;
+    }
+
+    .btn-white {
+      display: inline-block;
+      padding: .9rem 2.4rem;
+      border-radius: 10px;
+      background: #fff;
+      color: var(--green-dark);
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all .25s;
+      font-family: Georgia, serif;
+    }
+
+    .btn-white:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 3rem 5%;
+      background: var(--text-dark);
+      color: #8ab49a;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-brand .logo {
+      color: #fff;
+      font-size: 1.4rem;
+    }
+
+    .footer-brand p {
+      font-size: .85rem;
+      margin-top: .5rem;
+      opacity: .6;
+      max-width: 240px;
+      line-height: 1.6;
+    }
+
+    .footer-links h4 {
+      color: #fff;
+      font-size: .88rem;
+      font-weight: 700;
+      margin-bottom: .8rem;
+      font-family: Georgia, serif;
+    }
+
+    .footer-links ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+    }
+
+    .footer-links a {
+      color: #8ab49a;
+      text-decoration: none;
+      font-size: .85rem;
+      transition: color .2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--green-light);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, .08);
+      padding-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: .82rem;
+    }
+
+    @media(max-width:640px) {
+      .nav-links {
+        display: none;
+      }
+
+      .nav-hamburger {
+        display: block;
+      }
+
+      .step:not(:last-child)::after {
+        display: none;
+      }
+
+      .hero-stats {
+        gap: 1.5rem;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="mainNav">
+    <a href="index.html" class="logo"><span class="logo-dot"></span>Career<span>AI</span></a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how">How it Works</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="login.html" class="btn-outline">Login</a>
+      <a href="register.html" class="btn-solid">Get Started</a>
+    </div>
+    <button class="nav-hamburger" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
+  </nav>
+  <div class="nav-mobile" id="mobileMenu">
+    <a href="#features">Features</a>
+    <a href="#how">How it Works</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="login.html">Login</a>
+    <a href="register.html">Get Started →</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge"><span class="badge-dot"></span>AI-Powered · Groq Fast · 100% Free</div>
+    <h1>Your Smartest <span class="accent">Career</span><br />Co-Pilot</h1>
+    <p>Analyze your resume, GitHub & LinkedIn. Find internships. Get a personalized AI roadmap — all in one platform
+      built for students and fresh grads.</p>
+    <div class="hero-actions">
+      <a href="register.html" class="btn-hero btn-hero-primary"><i class="fa-solid fa-rocket"></i> Start for Free</a>
+      <a href="#features" class="btn-hero btn-hero-secondary">Explore Features <i
+          class="fa-solid fa-arrow-down"></i></a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Profile Analyzers</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">50K+</div>
+        <div class="stat-label">Internship Listings</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Career Roadmaps</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">Free</div>
+        <div class="stat-label">Forever Plan</div>
+      </div>
+    </div>
+    <div class="hero-cards">
+      <div class="mini-card">
+        <div class="mini-icon"><i class="fa-regular fa-file-lines"></i></div>Resume → ATS Score
+      </div>
+      <div class="mini-card">
+        <div class="mini-icon"><i class="fa-brands fa-github"></i></div>GitHub Analyzer
+      </div>
+      <div class="mini-card">
+        <div class="mini-icon"><i class="fa-solid fa-briefcase"></i></div>Internship Finder
+      </div>
+      <div class="mini-card">
+        <div class="mini-icon"><i class="fa-solid fa-map-location-dot"></i></div>AI Roadmap
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="section-divider"></div>
+    <h2 class="section-title">Everything You Need to Land Your Dream Role</h2>
+    <p class="section-sub">Four powerful AI modules working together to accelerate your career journey.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-regular fa-file-lines"></i></div>
+        <h3>Multi-Profile Analyzer</h3>
+        <p>Upload your resume, analyze GitHub, or share LinkedIn data. Get instant AI-driven scores, keyword gaps, and
+          actionable improvement tips.</p>
+        <div class="feature-tags"><span class="tag">ATS Score</span><span class="tag">Keyword Gap</span><span
+            class="tag">LinkedIn</span><span class="tag">GitHub</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-bullseye"></i></div>
+        <h3>Smart Internship Finder</h3>
+        <p>Our AI reads your resume and matches you to curated internship opportunities across top platforms — filtered
+          to your skill level.</p>
+        <div class="feature-tags"><span class="tag">Beginner</span><span class="tag">Intermediate</span><span
+            class="tag">Advanced</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+        <h3>AI Skill Roadmap</h3>
+        <p>Pick your career goal — Frontend, ML Engineer, Data Analyst and more. Get a tailored learning roadmap with
+          free courses and projects.</p>
+        <div class="feature-tags"><span class="tag">Groq AI</span><span class="tag">Free Courses</span><span
+            class="tag">Projects</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-robot"></i></div>
+        <h3>Career AI Chatbot</h3>
+        <p>Ask anything — interview prep, skill guidance, career strategy. Get expert-level answers powered by Groq's
+          blazing fast LLM.</p>
+        <div class="feature-tags"><span class="tag">24/7 Available</span><span class="tag">Instant</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+        <h3>Progress Dashboard</h3>
+        <p>Track your profile scores, monitor skill improvement, and see which internships you've applied to — all in
+          one unified view.</p>
+        <div class="feature-tags"><span class="tag">Analytics</span><span class="tag">History</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-lock"></i></div>
+        <h3>Secure & Private</h3>
+        <p>JWT-based authentication, encrypted storage. Your resume, profile data and career goals stay private and
+          under your control.</p>
+        <div class="feature-tags"><span class="tag">JWT Auth</span><span class="tag">Encrypted</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how" id="how">
+    <div class="section-divider"></div>
+    <h2 class="section-title">How CareerAI Works</h2>
+    <p class="section-sub">From signup to your dream internship in four simple steps.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Create Account</h4>
+        <p>Sign up free — no credit card needed, ever.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Upload & Connect</h4>
+        <p>Upload your resume and link your GitHub profile for deep analysis.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>Get AI Insights</h4>
+        <p>Our Groq-powered AI scores your profile and identifies skill gaps.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h4>Grow & Apply</h4>
+        <p>Follow your roadmap, improve your scores, and land internships.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <h2>Ready to Accelerate Your Career?</h2>
+    <p>Join thousands of students already using CareerAI to land internships and build skills faster.</p>
+    <a href="register.html" class="btn-white">Create Free Account <i class="fa-solid fa-arrow-right"></i></a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">Career<span>AI</span></a>
+        <p>AI-powered career platform for students and fresh graduates.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="resume.html">Resume Analyzer</a></li>
+          <li><a href="github.html">GitHub Analyzer</a></li>
+          <li><a href="linkedin.html">LinkedIn Analyzer</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="internships.html">Internship Finder</a></li>
+          <li><a href="roadmap.html">AI Roadmap</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Account</h4>
+        <ul>
+          <li><a href="login.html">Sign In</a></li>
+          <li><a href="register.html">Register Free</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 CareerAI. Built with <i class="fa-solid fa-heart" style="color:#1ecc7a"></i> for students.</span>
+      <span>Privacy · Terms</span>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('mobileMenu').classList.toggle('open');
+    }
+    window.addEventListener('scroll', () => {
+      document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+  </script>
+</body>
+
+</html>
