@@ -10,6 +10,9 @@ sqlalchemy==2.0.30
 
 # Auth
 passlib[bcrypt]==1.7.4
+# Pin bcrypt to a version compatible with passlib's bcrypt backend.
+# Newer bcrypt (4.1+) breaks passlib's version detection and wrap-bug check.
+bcrypt==4.0.1
 python-jose[cryptography]==3.3.0
 
 # Data validation
