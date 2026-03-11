@@ -26,7 +26,7 @@ Set these on your hosting platform (Render, Railway, etc.):
 7. For database, create a free **PostgreSQL** instance on Render and use its Internal URL as `DATABASE_URL`
 
 ### Frontend
-The frontend is served by FastAPI at `/app/` (e.g., `https://your-backend.onrender.com/app/index.html`).
+The frontend is served by FastAPI at `/site/` (e.g., `https://your-backend.onrender.com/site/index.html`).
 
 No separate hosting needed!
 
@@ -41,4 +41,4 @@ uvicorn main:app --reload
 
 - API: http://localhost:8000
 - Docs: http://localhost:8000/docs
-- Frontend: http://localhost:8000/app/
+- Frontend: http://localhost:8000/site/index.html
